@@ -1,0 +1,107 @@
+body {
+    justify-content: center;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .loginContainer {
+    background-color: white;
+    padding: 2rem;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    width: 500px;
+    max-width: 350px;
+  }
+
+  .loginContainer h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #262756;
+  }
+
+  .formGroup {
+    margin-bottom: 1rem;
+  }
+
+  .formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+
+  .formGroup input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .formGroup input:focus {
+    border-color: #667eea;
+  }
+
+  .loginButton {
+    width: 100%;
+    margin-left: 10px;
+    padding: 0.6rem;
+    background-color: #262756;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .loginButton:hover {
+    background-color: #556cd6;
+  }
+
+  .forgotPassword {
+    display: block;
+    text-align: center;
+    margin-top: 1rem;
+    color: #667eea;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .forgotPassword:hover {
+    text-decoration: underline;
+  }
+
+  .logoImage{
+    width: 100%;
+    border-radius: 8px;
+    padding: 2px;
+  }
+
+  .mainDiv{
+    display: flex;
+  } 
+
+  .sideImage{
+    width: 600px;
+    height: 460px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+  }
+
+  .loginContainer2 {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    width: 600px;
+    height: 460px;
+  }
+
+h2{
+  color:#262756
+}

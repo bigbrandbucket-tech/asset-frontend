@@ -1,0 +1,111 @@
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .formContainer {
+    background: #fff;
+    padding: 10px 50px 10px 50px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 100%;
+    margin-left: 0;
+    margin-top: 30px;
+    height: 100%;
+    box-sizing: border-box;
+    margin-right: 0px;
+    margin-bottom: 0%;
+  }
+
+  .formContainer h2 {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+
+  .formGroup {
+    margin-bottom: 20px;
+    color: #262756;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .submitBtn {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 50px;
+    background-color: #262756;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .submitBtn:hover {
+    background-color: #45a049;
+  }
+
+  .mainContent {
+    flex: 1;
+    padding: 1% 0%;
+    background-color: #f5f7fa;
+    overflow-y: auto;
+     padding-bottom: 0;
+  }
+  .addClientHeading {
+    padding-top: 20px;
+    text-align: left;
+    font-size: 24px;
+    font-weight: bold;
+    color: #262756;
+  }
+  
+  .headingWrapper {
+    display: flex;
+    justify-content: flex-start; /* or center / space-between */
+    align-items: center;
+  }
+
+  .twoColumnForm {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .column {
+    flex: 0 0 48%; /* Almost half the width with some gap */
+  }
+
+  .headerWrapper{
+  
+    padding-left: 4.5%;
+    padding-top: 1%;
+    padding-right: 4.5%;
+  
+  }

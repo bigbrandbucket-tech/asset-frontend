@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background-color: #e5ebf1;
+}
+
+.sidebar {
+  width: 230px;
+  background-color: #262756;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.sidebarMenu {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebarMenu li {
+  padding: 12px 0;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  margin-left: -19px;
+  width: 229px;
+  padding-left: 20px;
+  font-weight: bold;
+  position: relative;
+}
+
+.logo {
+  width: 200px;
+  height: 100px;
+}
+
+
+/* Dropdown Styles */
+.dropdownMenu {
+  flex-direction: column;
+  background-color: #262756;
+  margin-left: 0;
+  padding-left: 10px; 
+  padding-top: 9px;
+}
+
+
+
+.dropdownMenu :hover{
+  background-color: #e5ebf1;
+  color: #262756;
+}
+
+.dropdownMenu li{
+  width: 200px;
+}
+
+.icon{
+  color: white;
+  display: flex;
+  float: right;
+  font-size: small;
+  margin-right: 20px;
+}

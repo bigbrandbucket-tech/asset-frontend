@@ -1,0 +1,107 @@
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 1% 0%;
+  background-color: #f5f7fa;
+  overflow-y: auto;
+  padding-bottom: 0;
+}
+
+.headerWrapper {
+  padding-left: 4.5%;
+  padding-top: 1%;
+  padding-right: 4.5%;
+}
+
+.formContainer {
+  background: #fff;
+  padding: 10px 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+  margin-top: 30px;
+  box-sizing: border-box;
+}
+
+.headingWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.addClientHeading {
+  padding-top: 20px;
+  text-align: left;
+  font-size: 24px;
+  font-weight: bold;
+  color: #262756;
+}
+
+.twoColumnForm {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.column {
+  flex: 0 0 48%;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  color: #262756;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 50px;
+  background-color: #262756;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submitBtn:hover {
+  background-color: #45a049;
+}

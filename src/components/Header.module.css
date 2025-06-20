@@ -1,0 +1,42 @@
+.container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+  left: 0;
+  z-index: 1000;
+  }
+  
+  .header h1 {
+    font-size: 30px;
+    color: #262756;
+  }
+
+  .headerButtons{
+    display: flex;
+  gap: 12px;
+  }
+
+  .headerButtons button {
+    width: 100px;
+    padding: 8px 16px;
+    background-color: #262756;
+    color: #e5ebf1;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: small;
+    font-weight: 500;
+  }
+
+  .headerButtons button:hover {
+    background-color: #262756;
+    color: white
+  }
