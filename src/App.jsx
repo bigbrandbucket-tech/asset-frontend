@@ -17,7 +17,7 @@ import UserListPage from "./components/UserListPage";
 import ProjectListPage from "./components/ProjectListPage";
 import AddProjectPage from "./components/AddProjectPage";
 import styles from "./App.module.css";
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = 'https://asset-backend-tuna.onrender.com/api';
 const App = () => {
   return (
     <>
