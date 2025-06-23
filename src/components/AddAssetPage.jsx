@@ -157,18 +157,19 @@ const AddAssetPage = () => {
 
             {/* Right Column */}
             <div className={styles.column}>
-              <div className={styles.formGroup}>
-                <label className={styles.sectionLabel}>Technical Datasheets</label>
+              <div className={`${styles.formGroup} ${styles.technicalSection}`}>
+                  <label>Technical Datasheets</label>
 
-                <label htmlFor="ga">Upload GA Drawing</label>
-                <input type="file" name="ga" accept=".pdf,.dwg,.jpg,.png" onChange={handleFileChange} />
+                  <label htmlFor="ga">Upload GA Drawing</label>
+                  <input type="file" name="ga" accept=".pdf,.dwg,.jpg,.png" onChange={handleFileChange} />
 
-                <label htmlFor="curve">Upload Curve</label>
-                <input type="file" name="curve" accept=".pdf,.jpg,.png" onChange={handleFileChange} />
+                  <label htmlFor="curve">Upload Curve</label>
+                  <input type="file" name="curve" accept=".pdf,.jpg,.png" onChange={handleFileChange} />
 
-                <label htmlFor="performance">Upload Performance</label>
-                <input type="file" name="performance" accept=".pdf,.xls,.xlsx" onChange={handleFileChange} />
+                  <label htmlFor="performance">Upload Performance</label>
+                  <input type="file" name="performance" accept=".pdf,.xls,.xlsx" onChange={handleFileChange} />
               </div>
+
 
               <div className={styles.formGroup}>
                 <label htmlFor="spares">Upload Spares & Manuals</label>
