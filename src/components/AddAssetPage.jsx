@@ -6,16 +6,17 @@ import Header from "./Header";
 
 const AddAssetPage = () => {
   const [form, setForm] = useState({
-  type: "",
-  makeOrOEM: "",
-  assetName: "",
-  model: "",
-  tag: "",
-  warrantyExpiryDate: "",
-  latitude: "",
-  longitude: ""
-});
-
+    type: "",
+    makeOrOEM: "",
+    assetName: "",
+    model: "",
+    tag: "",
+    warrantyExpiryDate: "",
+    location: {
+      latitude: "",
+      longitude: ""
+    }
+  });
 
   const [files, setFiles] = useState({
     ga: null,
@@ -38,7 +39,8 @@ const AddAssetPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "lat" || name === "lng") {
+
+    if (name === "latitude" || name === "longitude") {
       setForm((prev) => ({
         ...prev,
         location: {
@@ -59,12 +61,18 @@ const AddAssetPage = () => {
     e.preventDefault();
     const formData = new FormData();
 
+    // Append non-nested fields
     Object.entries(form).forEach(([key, value]) => {
-      if (key !== "location") formData.append(key, value);
+      if (key !== "location") {
+        formData.append(key, value);
+      }
     });
-    formData.append("lat", form.location.latitude);
-    formData.append("lng", form.location.longitude);
 
+    // Append location fields
+    formData.append("latitude", form.location.latitude);
+    formData.append("longitude", form.location.longitude);
+
+    // Append files
     Object.entries(files).forEach(([key, file]) => {
       if (file) formData.append(key, file);
     });
@@ -168,29 +176,29 @@ const AddAssetPage = () => {
                 <input type="date" name="warrantyExpiryDate" value={form.warrantyExpiryDate} onChange={handleChange} required />
               </div>
 
-<div className={styles.formGroup}>
-  <label>Location Coordinates</label>
-  <div className={styles.coordRow}>
-    <input
-      type="text"
-      name="latitude"
-      placeholder="Latitude"
-      value={form.latitude}
-      onChange={handleChange}
-      required
-    />
-    <input
-      type="text"
-      name="longitude"
-      placeholder="Longitude"
-      value={form.longitude}
-      onChange={handleChange}
-      required
-    />
-  </div>
-</div>
-
-
+              <div className={styles.formGroup}>
+                <label>Location Coordinates</label>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <input
+                    type="text"
+                    name="latitude"
+                    placeholder="Latitude"
+                    value={form.location.latitude}
+                    onChange={handleChange}
+                    required
+                    style={{ flex: 1 }}
+                  />
+                  <input
+                    type="text"
+                    name="longitude"
+                    placeholder="Longitude"
+                    value={form.location.longitude}
+                    onChange={handleChange}
+                    required
+                    style={{ flex: 1 }}
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Right Column */}
@@ -222,6 +230,7 @@ const AddAssetPage = () => {
             <button type="submit" className={styles.submitBtn}>Add Asset</button>
           </form>
 
+          {/* QR Code Section */}
           {qrCodeUrl && (
             <div style={{ marginTop: "2rem", textAlign: "center" }}>
               <h3>QR Code for Asset</h3>
@@ -252,6 +261,7 @@ const AddAssetPage = () => {
         </div>
       </div>
 
+      {/* Modal */}
       {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
