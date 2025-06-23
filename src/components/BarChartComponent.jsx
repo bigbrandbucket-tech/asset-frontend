@@ -20,6 +20,17 @@ const typeMap = {
   firefighting: { label: "Fire Fighting", color: "#FF4C4C" }, // red
 };
 
+const CustomBar = (props) => {
+  const { x, y, width, height, fill, value } = props;
+  const minBarHeight = 5;
+  const displayHeight = value === 0 ? minBarHeight : height;
+  const displayY = value === 0 ? y - minBarHeight : y;
+
+  return (
+    <rect x={x} y={displayY} width={width} height={displayHeight} fill={fill} rx={3} />
+  );
+};
+
 const BarChartComponent = () => {
   const [data, setData] = useState([]);
 
@@ -30,13 +41,13 @@ const BarChartComponent = () => {
           "https://asset-backend-tuna.onrender.com/api/assets/type-count"
         );
 
-        // Step 1: Start with 0 values for all defined types
+        // Always include all 4 types
         const tempData = Object.entries(typeMap).map(([key, value]) => ({
           name: value.label,
           value: 0,
         }));
 
-        // Step 2: Map backend data to known types
+        // Replace with actual values
         response.data.forEach((item) => {
           const key = item.type?.toLowerCase().replace(/\s/g, "");
           if (typeMap[key]) {
@@ -64,9 +75,8 @@ const BarChartComponent = () => {
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Legend />
-          <Bar dataKey="value">
+          <Bar dataKey="value" shape={<CustomBar />}>
             {data.map((entry, index) => {
-              // Get color from typeMap by reverse-matching the label
               const entryKey = Object.keys(typeMap).find(
                 (key) => typeMap[key].label === entry.name
               );
