@@ -31,10 +31,10 @@ const AddAssetPage = () => {
   const [newManufacturer, setNewManufacturer] = useState("");
 
   const [manufacturers, setManufacturers] = useState({
-    electrical: ["Siemens", "Schneider", "ABB"],
-    fire: ["Tyco", "Honeywell", "Viking"],
-    hvac: ["Daikin", "Voltas", "Blue Star"],
-    plumbing: ["Jaquar", "Hindware", "Kohler"]
+    Electrical: ["Siemens", "Schneider", "ABB"],
+    Fire: ["Tyco", "Honeywell", "Viking"],
+    Hvac: ["Daikin", "Voltas", "Blue Star"],
+    Plumbing: ["Jaquar", "Hindware", "Kohler"]
   });
 
   const handleChange = (e) => {
