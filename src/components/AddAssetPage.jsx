@@ -123,10 +123,10 @@ const AddAssetPage = () => {
                   required
                 >
                   <option value="">-- Select Type --</option>
-                  <option value="electrical">Electrical</option>
-                  <option value="fire">Fire Fighting</option>
-                  <option value="hvac">HVAC</option>
-                  <option value="plumbing">Plumbing</option>
+                  <option value="Electrical">Electrical</option>
+                  <option value="Fire">Fire Fighting</option>
+                  <option value="Hvac">HVAC</option>
+                  <option value="Plumbing">Plumbing</option>
                 </select>
               </div>
 
