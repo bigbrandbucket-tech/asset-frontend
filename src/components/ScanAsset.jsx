@@ -70,7 +70,7 @@ const ScanAsset = () => {
           <p><strong>Model:</strong> {asset.model}</p>
           <p><strong>Equipment Number:</strong> {asset.tag}</p>
           <p><strong>Warranty Expiry Date:</strong> {new Date(asset.warrantyExpiryDate).toDateString()}</p>
-          <p><strong>Location:</strong> {asset.latitude}, {asset.longitude}</p>
+          <p><strong>Location:</strong> {location?.latitude}, {location?.longitude}</p>
         </div>
 
         <hr style={{ margin: "2rem 0", borderTop: "1px solid #ccc" }} />
