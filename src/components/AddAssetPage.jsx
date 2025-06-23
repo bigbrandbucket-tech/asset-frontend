@@ -6,17 +6,16 @@ import Header from "./Header";
 
 const AddAssetPage = () => {
   const [form, setForm] = useState({
-    type: "",
-    makeOrOEM: "",
-    assetName: "",
-    model: "",
-    tag: "",
-    warrantyExpiryDate: "",
-    location: {
-      lat: "",
-      lng: ""
-    }
-  });
+  type: "",
+  makeOrOEM: "",
+  assetName: "",
+  model: "",
+  tag: "",
+  warrantyExpiryDate: "",
+  latitude: "",
+  longitude: ""
+});
+
 
   const [files, setFiles] = useState({
     ga: null,
@@ -170,24 +169,27 @@ const AddAssetPage = () => {
               </div>
 
               <div className={styles.formGroup}>
-                <label>Location (Latitude & Longitude)</label>
+                <label htmlFor="latitude">Latitude</label>
                 <input
                   type="text"
-                  name="lat"
-                  placeholder="Latitude"
-                  value={form.location.lat}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="text"
-                  name="lng"
-                  placeholder="Longitude"
-                  value={form.location.lng}
+                  name="latitude"
+                  value={form.latitude}
                   onChange={handleChange}
                   required
                 />
               </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="longitude">Longitude</label>
+                <input
+                  type="text"
+                  name="longitude"
+                  value={form.longitude}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
             </div>
 
             {/* Right Column */}
