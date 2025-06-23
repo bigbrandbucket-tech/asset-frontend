@@ -1,107 +1,103 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 const ScanAsset = () => {
   const [searchParams] = useSearchParams();
-  const [asset, setAsset] = useState(null);
   const assetId = searchParams.get("id");
-  const printRef = useRef();
+  const [asset, setAsset] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchAsset = async () => {
-      if (!assetId) return;
+      if (!assetId) {
+        setError("❌ No asset ID found in URL");
+        return;
+      }
+
       try {
-        const res = await axios.get(
-          `https://asset-backend-tuna.onrender.com/api/assets/${assetId}`
-        );
+        const res = await axios.get(`/assets/${assetId}`); // Uses axios.defaults.baseURL
         setAsset(res.data);
-      } catch (error) {
-        console.error("Failed to fetch asset:", error);
+      } catch (err) {
+        console.error("❌ Failed to fetch asset", err);
+        setError("Asset not found or failed to load.");
       }
     };
+
     fetchAsset();
   }, [assetId]);
 
   const handlePrint = () => {
-    if (printRef.current) {
-      const printContents = printRef.current.innerHTML;
-      const win = window.open("", "", "width=800,height=600");
-      win.document.write(`<html><head><title>Print</title></head><body>${printContents}</body></html>`);
-      win.document.close();
-      win.focus();
-      win.print();
-      win.close();
-    }
+    window.print();
   };
 
-  if (!asset) {
-    return <div style={{ padding: "2rem", textAlign: "center" }}>Loading asset data...</div>;
+  if (error) {
+    return (
+      <div style={{ padding: "2rem", textAlign: "center", color: "red" }}>
+        <h2>{error}</h2>
+      </div>
+    );
   }
 
+  if (!asset) {
+    return (
+      <div style={{ padding: "2rem", textAlign: "center" }}>
+        <h2>Loading Asset...</h2>
+      </div>
+    );
+  }
+
+  const { type, makeOrOEM, assetName, model, tag, warrantyExpiryDate, location } = asset;
+
+  const formatDate = (dateStr) => {
+    return dateStr ? new Date(dateStr).toDateString() : "N/A";
+  };
+
+  const renderDocLink = (label, filePath) => {
+    if (!filePath) return null;
+    return (
+      <p>
+        <strong>{label}:</strong>{" "}
+        <a href={filePath} target="_blank" rel="noopener noreferrer" style={{ color: "#007bff" }}>
+          View / Download
+        </a>
+      </p>
+    );
+  };
+
   return (
-    <div style={{
-      display: "flex",
-      justifyContent: "center",
-      padding: "2rem",
-      background: "#f9f9f9",
-      minHeight: "100vh",
-      fontFamily: "'Segoe UI', sans-serif"
-    }}>
-      <div
-        ref={printRef}
-        style={{
-          background: "#fff",
-          padding: "2rem 3rem",
-          borderRadius: "12px",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-          width: "100%",
-          maxWidth: "600px"
-        }}
-      >
-        <h2 style={{ textAlign: "center", marginBottom: "2rem", color: "#333" }}>
-          📋 Asset Details
-        </h2>
+    <div style={{ maxWidth: "600px", margin: "2rem auto", padding: "2rem", backgroundColor: "#f8f9fa", borderRadius: "10px", boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}>
+      <h2 style={{ textAlign: "center", marginBottom: "1.5rem", color: "#333" }}>Asset Details</h2>
 
-        <div style={{ lineHeight: "2", color: "#444" }}>
-          <p><strong>Type:</strong> {asset.type}</p>
-          <p><strong>Manufacturer:</strong> {asset.makeOrOEM}</p>
-          <p><strong>Equipment Name:</strong> {asset.assetName}</p>
-          <p><strong>Model:</strong> {asset.model}</p>
-          <p><strong>Equipment Number:</strong> {asset.tag}</p>
-          <p><strong>Warranty Expiry Date:</strong> {new Date(asset.warrantyExpiryDate).toDateString()}</p>
-          <p><strong>Location:</strong> {location?.latitude}, {location?.longitude}</p>
-        </div>
+      <p><strong>Type:</strong> {type}</p>
+      <p><strong>Manufacturer:</strong> {makeOrOEM}</p>
+      <p><strong>Equipment Name:</strong> {assetName}</p>
+      <p><strong>Model:</strong> {model}</p>
+      <p><strong>Equipment Number:</strong> {tag}</p>
+      <p><strong>Warranty Expiry Date:</strong> {formatDate(warrantyExpiryDate)}</p>
+      <p><strong>Location:</strong> {location?.latitude || "N/A"}, {location?.longitude || "N/A"}</p>
 
-        <hr style={{ margin: "2rem 0", borderTop: "1px solid #ccc" }} />
+      <h3 style={{ marginTop: "1.5rem" }}>Technical Documents</h3>
+      {renderDocLink("GA Drawing", asset.ga)}
+      {renderDocLink("Curve", asset.curve)}
+      {renderDocLink("Performance", asset.performance)}
+      {renderDocLink("Spares & Manuals", asset.spares)}
 
-        <h3 style={{ marginBottom: "1rem", color: "#333" }}>📎 Technical Documents</h3>
-        <ul style={{ paddingLeft: "1.5rem" }}>
-          {asset.ga && <li><a href={asset.ga} target="_blank" rel="noreferrer">GA Drawing</a></li>}
-          {asset.curve && <li><a href={asset.curve} target="_blank" rel="noreferrer">Curve</a></li>}
-          {asset.performance && <li><a href={asset.performance} target="_blank" rel="noreferrer">Performance</a></li>}
-          {asset.spares && <li><a href={asset.spares} target="_blank" rel="noreferrer">Spares & Manuals</a></li>}
-        </ul>
-
-        <div style={{ textAlign: "center", marginTop: "2rem" }}>
-          <button
-            onClick={handlePrint}
-            style={{
-              backgroundColor: "#007bff",
-              color: "#fff",
-              padding: "10px 25px",
-              border: "none",
-              borderRadius: "6px",
-              fontSize: "15px",
-              cursor: "pointer",
-              transition: "background-color 0.3s"
-            }}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#0056b3"}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#007bff"}
-          >
-            🖨️ Print Asset Details
-          </button>
-        </div>
+      <div style={{ textAlign: "center", marginTop: "2rem" }}>
+        <button
+          onClick={handlePrint}
+          style={{
+            padding: "10px 20px",
+            fontSize: "14px",
+            backgroundColor: "#007bff",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer"
+          }}
+        >
+          🖨️ Print Asset Details
+        </button>
       </div>
     </div>
   );
