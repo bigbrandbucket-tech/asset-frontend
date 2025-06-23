@@ -12,16 +12,16 @@ import {
 } from "recharts";
 import axios from "axios";
 
+// Normalized type mapping: backend type => { label, color }
+const typeMap = {
+  hvac: { label: "HVAC", color: "#4CAF50" }, // green
+  electrical: { label: "Electrical", color: "#FFA500" }, // orange
+  plumbing: { label: "Plumbing", color: "#87CEFA" }, // light blue
+  firefighting: { label: "Fire Fighting", color: "#FF4C4C" }, // red
+};
+
 const BarChartComponent = () => {
   const [data, setData] = useState([]);
-
-  // Define consistent types and colors
-  const typeColorMap = {
-    HVAC: "#4CAF50", // green
-    Electrical: "#FFA500", // orange
-    Plumbing: "#87CEFA", // light blue
-    "Fire Fighting": "#FF4C4C", // red
-  };
 
   useEffect(() => {
     const fetchAssetTypeData = async () => {
@@ -30,21 +30,23 @@ const BarChartComponent = () => {
           "https://asset-backend-tuna.onrender.com/api/assets/type-count"
         );
 
-        // Step 1: Initialize all types with 0
-        const defaultData = Object.keys(typeColorMap).map((type) => ({
-          name: type,
+        // Step 1: Start with 0 values for all defined types
+        const tempData = Object.entries(typeMap).map(([key, value]) => ({
+          name: value.label,
           value: 0,
         }));
 
-        // Step 2: Fill in real data
+        // Step 2: Map backend data to known types
         response.data.forEach((item) => {
-          const match = defaultData.find((d) => d.name === item.type);
-          if (match) {
-            match.value = item.count;
+          const key = item.type?.toLowerCase().replace(/\s/g, "");
+          if (typeMap[key]) {
+            const label = typeMap[key].label;
+            const match = tempData.find((d) => d.name === label);
+            if (match) match.value = item.count;
           }
         });
 
-        setData(defaultData);
+        setData(tempData);
       } catch (error) {
         console.error("Failed to fetch asset type data:", error);
       }
@@ -63,12 +65,18 @@ const BarChartComponent = () => {
           <Tooltip />
           <Legend />
           <Bar dataKey="value">
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={typeColorMap[entry.name] || "#8884d8"}
-              />
-            ))}
+            {data.map((entry, index) => {
+              // Get color from typeMap by reverse-matching the label
+              const entryKey = Object.keys(typeMap).find(
+                (key) => typeMap[key].label === entry.name
+              );
+              return (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={typeMap[entryKey]?.color || "#8884d8"}
+                />
+              );
+            })}
           </Bar>
         </BarChart>
       </ResponsiveContainer>
