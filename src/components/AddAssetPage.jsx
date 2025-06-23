@@ -15,7 +15,7 @@ const AddAssetPage = () => {
     model: "",
     makeOrOEM: "",
     notes: "",
-    warrantyExpiryDate: "" // 🆕 Warranty date
+    warrantyExpiryDate: ""
   });
 
   const [files, setFiles] = useState({
@@ -24,6 +24,8 @@ const AddAssetPage = () => {
     tds: null,
     spares: null
   });
+
+  const [qrCodeUrl, setQrCodeUrl] = useState(""); // ✅ QR Code state
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -37,8 +39,6 @@ const AddAssetPage = () => {
     e.preventDefault();
 
     const formData = new FormData();
-
-    // Append form fields
     formData.append("assetName", form.assetName);
     formData.append("type", form.type);
     formData.append("tag", form.tag);
@@ -48,19 +48,22 @@ const AddAssetPage = () => {
     formData.append("model", form.model);
     formData.append("makeOrOEM", form.makeOrOEM);
     formData.append("notes", form.notes);
-    formData.append("warrantyExpiryDate", form.warrantyExpiryDate); // 🆕 append warranty
+    formData.append("warrantyExpiryDate", form.warrantyExpiryDate);
 
-    // Append files
     Object.entries(files).forEach(([key, file]) => {
       if (file) formData.append(key, file);
     });
 
     try {
-      const res = await axios.post("http://localhost:5000/api/assets/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await axios.post(
+        "https://asset-backend-tuna.onrender.com/api/assets/upload", // ✅ Use Render backend here
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
       alert("Asset uploaded successfully!");
-      console.log(res.data);
+      setQrCodeUrl(res.data.qrCode); // ✅ Get QR from backend response
+      console.log("QR Code URL:", res.data.qrCode);
     } catch (err) {
       console.error(err);
       alert("Upload failed.");
@@ -170,6 +173,35 @@ const AddAssetPage = () => {
 
             <button type="submit" className={styles.submitBtn}>Add Asset</button>
           </form>
+
+          {/* ✅ QR Code Preview & Download Section */}
+          {qrCodeUrl && (
+            <div style={{ marginTop: "2rem", textAlign: "center" }}>
+              <h3>QR Code for Asset</h3>
+              <img
+                src={qrCodeUrl}
+                alt="Asset QR Code"
+                style={{ width: "200px", padding: "8px", background: "#fff", border: "1px solid #ccc" }}
+              />
+              <br />
+              <a href={qrCodeUrl} download={`asset_qrcode.png`}>
+                <button
+                  style={{
+                    marginTop: "1rem",
+                    padding: "10px 20px",
+                    fontSize: "14px",
+                    backgroundColor: "#4CAF50",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer"
+                  }}
+                >
+                  Download QR Code
+                </button>
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </div>
