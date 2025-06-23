@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import styles from "./ScanAsset.module.css";
 
 const ScanAsset = () => {
   const [searchParams] = useSearchParams();
@@ -16,7 +17,7 @@ const ScanAsset = () => {
       }
 
       try {
-        const res = await axios.get(`/assets/${assetId}`); // Uses axios.defaults.baseURL
+        const res = await axios.get(`/assets/${assetId}`);
         setAsset(res.data);
       } catch (err) {
         console.error("❌ Failed to fetch asset", err);
@@ -31,24 +32,6 @@ const ScanAsset = () => {
     window.print();
   };
 
-  if (error) {
-    return (
-      <div style={{ padding: "2rem", textAlign: "center", color: "red" }}>
-        <h2>{error}</h2>
-      </div>
-    );
-  }
-
-  if (!asset) {
-    return (
-      <div style={{ padding: "2rem", textAlign: "center" }}>
-        <h2>Loading Asset...</h2>
-      </div>
-    );
-  }
-
-  const { type, makeOrOEM, assetName, model, tag, warrantyExpiryDate, location } = asset;
-
   const formatDate = (dateStr) => {
     return dateStr ? new Date(dateStr).toDateString() : "N/A";
   };
@@ -58,16 +41,39 @@ const ScanAsset = () => {
     return (
       <p>
         <strong>{label}:</strong>{" "}
-        <a href={filePath} target="_blank" rel="noopener noreferrer" style={{ color: "#007bff" }}>
+        <a
+          href={filePath}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.documentLink}
+        >
           View / Download
         </a>
       </p>
     );
   };
 
+  if (error) {
+    return (
+      <div className={styles.error}>
+        <h2>{error}</h2>
+      </div>
+    );
+  }
+
+  if (!asset) {
+    return (
+      <div className={styles.loading}>
+        <h2>Loading Asset...</h2>
+      </div>
+    );
+  }
+
+  const { type, makeOrOEM, assetName, model, tag, warrantyExpiryDate, location } = asset;
+
   return (
-    <div style={{ maxWidth: "600px", margin: "2rem auto", padding: "2rem", backgroundColor: "#f8f9fa", borderRadius: "10px", boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}>
-      <h2 style={{ textAlign: "center", marginBottom: "1.5rem", color: "#333" }}>Asset Details</h2>
+    <div className={styles.container}>
+      <h2 className={styles.title}>Asset Details</h2>
 
       <p><strong>Type:</strong> {type}</p>
       <p><strong>Manufacturer:</strong> {makeOrOEM}</p>
@@ -83,19 +89,8 @@ const ScanAsset = () => {
       {renderDocLink("Performance", asset.performance)}
       {renderDocLink("Spares & Manuals", asset.spares)}
 
-      <div style={{ textAlign: "center", marginTop: "2rem" }}>
-        <button
-          onClick={handlePrint}
-          style={{
-            padding: "10px 20px",
-            fontSize: "14px",
-            backgroundColor: "#007bff",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer"
-          }}
-        >
+      <div className={styles.buttonContainer}>
+        <button onClick={handlePrint} className={styles.printButton}>
           🖨️ Print Asset Details
         </button>
       </div>
