@@ -26,21 +26,27 @@ const AssetListPage = ({ showActiveOnly = false }) => {
       <table className={styles.assetTable}>
         <thead>
           <tr>
-            <th>Asset Name</th>
             <th>Type</th>
-            <th>Location</th>
-            <th>Rep Phone</th>
+            <th>OEM / MANUFACTURER</th>
+            <th>Asset Name</th>
+            <th>Model</th>
+            <th>Equipment No.</th>
             <th>Warranty Expiry</th>
+            <th>Location (Lat, Long)</th>
           </tr>
         </thead>
         <tbody>
           {assets.map((a, index) => (
             <tr key={index}>
-              <td>{a.assetName}</td>
               <td>{a.type}</td>
-              <td>{a.location}</td>
-              <td>{a.repPhone}</td>
+              <td>{a.makeOrOEM}</td>
+              <td>{a.assetName}</td>
+              <td>{a.model}</td>
+              <td>{a.tag}</td>
               <td>{new Date(a.warrantyExpiryDate).toLocaleDateString()}</td>
+              <td>
+                {a.location?.latitude ?? "-"}, {a.location?.longitude ?? "-"}
+              </td>
             </tr>
           ))}
         </tbody>

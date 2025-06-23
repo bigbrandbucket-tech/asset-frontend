@@ -11,7 +11,11 @@ const AddAssetPage = () => {
     assetName: "",
     model: "",
     tag: "",
-    warrantyExpiryDate: ""
+    warrantyExpiryDate: "",
+    location: {
+      lat: "",
+      lng: ""
+    }
   });
 
   const [files, setFiles] = useState({
@@ -34,7 +38,18 @@ const AddAssetPage = () => {
   });
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "lat" || name === "lng") {
+      setForm((prev) => ({
+        ...prev,
+        location: {
+          ...prev.location,
+          [name]: value
+        }
+      }));
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleFileChange = (e) => {
@@ -46,8 +61,10 @@ const AddAssetPage = () => {
     const formData = new FormData();
 
     Object.entries(form).forEach(([key, value]) => {
-      formData.append(key, value);
+      if (key !== "location") formData.append(key, value);
     });
+    formData.append("lat", form.location.lat);
+    formData.append("lng", form.location.lng);
 
     Object.entries(files).forEach(([key, file]) => {
       if (file) formData.append(key, file);
@@ -114,7 +131,7 @@ const AddAssetPage = () => {
               </div>
 
               <div className={styles.formGroup}>
-                <label htmlFor="makeOrOEM">OEM / Manufacturer</label>
+                <label htmlFor="makeOrOEM">OEM / MANUFACTURER</label>
                 <div style={{ display: "flex", gap: "10px" }}>
                   <select
                     id="makeOrOEM"
@@ -125,9 +142,7 @@ const AddAssetPage = () => {
                   >
                     <option value="">-- Select Manufacturer --</option>
                     {manufacturers[form.type]?.map((mfr, idx) => (
-                      <option key={idx} value={mfr}>
-                        {mfr}
-                      </option>
+                      <option key={idx} value={mfr}>{mfr}</option>
                     ))}
                   </select>
                   <button type="button" onClick={() => setShowModal(true)}>+</button>
@@ -153,23 +168,42 @@ const AddAssetPage = () => {
                 <label htmlFor="warrantyExpiryDate">Warranty Expiry Date</label>
                 <input type="date" name="warrantyExpiryDate" value={form.warrantyExpiryDate} onChange={handleChange} required />
               </div>
+
+              <div className={styles.formGroup}>
+                <label>Location (Latitude & Longitude)</label>
+                <input
+                  type="text"
+                  name="lat"
+                  placeholder="Latitude"
+                  value={form.location.lat}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  type="text"
+                  name="lng"
+                  placeholder="Longitude"
+                  value={form.location.lng}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
 
             {/* Right Column */}
             <div className={styles.column}>
               <div className={`${styles.formGroup} ${styles.technicalSection}`}>
-                  <label>Technical Datasheets</label>
+                <label>Technical Datasheets</label>
 
-                  <label htmlFor="ga">Upload GA Drawing</label>
-                  <input type="file" name="ga" accept=".pdf,.dwg,.jpg,.png" onChange={handleFileChange} />
+                <label htmlFor="ga">Upload GA Drawing</label>
+                <input type="file" name="ga" accept=".pdf,.dwg,.jpg,.png" onChange={handleFileChange} />
 
-                  <label htmlFor="curve">Upload Curve</label>
-                  <input type="file" name="curve" accept=".pdf,.jpg,.png" onChange={handleFileChange} />
+                <label htmlFor="curve">Upload Curve</label>
+                <input type="file" name="curve" accept=".pdf,.jpg,.png" onChange={handleFileChange} />
 
-                  <label htmlFor="performance">Upload Performance</label>
-                  <input type="file" name="performance" accept=".pdf,.xls,.xlsx" onChange={handleFileChange} />
+                <label htmlFor="performance">Upload Performance</label>
+                <input type="file" name="performance" accept=".pdf,.xls,.xlsx" onChange={handleFileChange} />
               </div>
-
 
               <div className={styles.formGroup}>
                 <label htmlFor="spares">Upload Spares & Manuals</label>
@@ -185,7 +219,6 @@ const AddAssetPage = () => {
             <button type="submit" className={styles.submitBtn}>Add Asset</button>
           </form>
 
-          {/* QR Code Section */}
           {qrCodeUrl && (
             <div style={{ marginTop: "2rem", textAlign: "center" }}>
               <h3>QR Code for Asset</h3>
@@ -216,14 +249,11 @@ const AddAssetPage = () => {
         </div>
       </div>
 
-      {/* Modal */}
       {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <h3>Add New Manufacturer</h3>
-            <label>
-              Type: <strong>{form.type}</strong>
-            </label>
+            <label>Type: <strong>{form.type}</strong></label>
             <input
               type="text"
               placeholder="Enter Manufacturer Name"
