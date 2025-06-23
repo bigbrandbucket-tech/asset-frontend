@@ -39,8 +39,8 @@ const ScanAsset = () => {
   const renderDocLink = (label, filePath) => {
     if (!filePath) return null;
     return (
-      <p>
-        <strong>{label}:</strong>{" "}
+      <div className={styles.field}>
+        <span className={styles.label}>{label}:</span>
         <a
           href={filePath}
           target="_blank"
@@ -49,7 +49,7 @@ const ScanAsset = () => {
         >
           View / Download
         </a>
-      </p>
+      </div>
     );
   };
 
@@ -75,19 +75,46 @@ const ScanAsset = () => {
     <div className={styles.container}>
       <h2 className={styles.title}>Asset Details</h2>
 
-      <p><strong>Type:</strong> {type}</p>
-      <p><strong>Manufacturer:</strong> {makeOrOEM}</p>
-      <p><strong>Equipment Name:</strong> {assetName}</p>
-      <p><strong>Model:</strong> {model}</p>
-      <p><strong>Equipment Number:</strong> {tag}</p>
-      <p><strong>Warranty Expiry Date:</strong> {formatDate(warrantyExpiryDate)}</p>
-      <p><strong>Location:</strong> {location?.latitude || "N/A"}, {location?.longitude || "N/A"}</p>
+      <div className={styles.section}>
+        <div className={styles.field}>
+          <span className={styles.label}>Type:</span>
+          <span className={styles.value}>{type}</span>
+        </div>
+        <div className={styles.field}>
+          <span className={styles.label}>Manufacturer:</span>
+          <span className={styles.value}>{makeOrOEM}</span>
+        </div>
+        <div className={styles.field}>
+          <span className={styles.label}>Equipment Name:</span>
+          <span className={styles.value}>{assetName}</span>
+        </div>
+        <div className={styles.field}>
+          <span className={styles.label}>Model:</span>
+          <span className={styles.value}>{model}</span>
+        </div>
+        <div className={styles.field}>
+          <span className={styles.label}>Equipment Number:</span>
+          <span className={styles.value}>{tag}</span>
+        </div>
+        <div className={styles.field}>
+          <span className={styles.label}>Warranty Expiry:</span>
+          <span className={styles.value}>{formatDate(warrantyExpiryDate)}</span>
+        </div>
+        <div className={styles.field}>
+          <span className={styles.label}>Location:</span>
+          <span className={styles.value}>
+            {location?.latitude || "N/A"}, {location?.longitude || "N/A"}
+          </span>
+        </div>
+      </div>
 
-      <h3 style={{ marginTop: "1.5rem" }}>Technical Documents</h3>
-      {renderDocLink("GA Drawing", asset.ga)}
-      {renderDocLink("Curve", asset.curve)}
-      {renderDocLink("Performance", asset.performance)}
-      {renderDocLink("Spares & Manuals", asset.spares)}
+      <div className={styles.section}>
+        <h3 style={{ marginBottom: "1rem", color: "#2c3e50" }}>Technical Documents</h3>
+        {renderDocLink("GA Drawing", asset.ga)}
+        {renderDocLink("Curve", asset.curve)}
+        {renderDocLink("Performance", asset.performance)}
+        {renderDocLink("Spares & Manuals", asset.spares)}
+      </div>
 
       <div className={styles.buttonContainer}>
         <button onClick={handlePrint} className={styles.printButton}>
