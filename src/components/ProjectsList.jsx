@@ -8,7 +8,7 @@ const ProjectsList = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get("http://asset-backend-tuna.onrender.com/api/projects");
+        const res = await axios.get("https://asset-backend-tuna.onrender.com/api/projects");
         setProjects(res.data);
       } catch (err) {
         console.error("Failed to fetch projects:", err);

@@ -8,7 +8,7 @@ const MaintenanceAlertsList = () => {
   useEffect(() => {
     const fetchAlerts = async () => {
       try {
-        const res = await axios.get("http://asset-backend-tuna.onrender.com/api/alerts");
+        const res = await axios.get("https://asset-backend-tuna.onrender.com/api/alerts");
         setAlertAssets(res.data);
       } catch (err) {
         console.error("Error fetching alerts:", err);

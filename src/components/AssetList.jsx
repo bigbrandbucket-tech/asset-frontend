@@ -9,8 +9,8 @@ const AssetListPage = ({ showActiveOnly = false }) => {
     const fetchAssets = async () => {
       try {
         const url = showActiveOnly
-          ? "http://asset-backend-tuna.onrender.com/api/assets/active"
-          : "http://asset-backend-tuna.onrender.com/api/assets";
+          ? "https://asset-backend-tuna.onrender.com/api/assets/active"
+          : "https://asset-backend-tuna.onrender.com/api/assets";
         const res = await axios.get(url);
         setAssets(res.data);
       } catch (err) {
