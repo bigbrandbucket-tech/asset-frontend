@@ -34,37 +34,40 @@ const CustomBar = (props) => {
 const BarChartComponent = () => {
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchAssetTypeData = async () => {
-      try {
-        const response = await axios.get(
-          "https://asset-backend-tuna.onrender.com/api/assets/type-count"
+useEffect(() => {
+  const fetchAssetTypeData = async () => {
+    try {
+      const response = await axios.get(
+        "https://asset-backend-tuna.onrender.com/api/assets/type-count"
+      );
+
+      const tempData = Object.entries(typeMap).map(([key, value]) => ({
+        name: value.label,
+        value: 0,
+      }));
+
+      response.data.forEach((item) => {
+        const matchedKey = Object.keys(typeMap).find(
+          (k) =>
+            k.toLowerCase().replace(/\s/g, "") ===
+            item.type?.toLowerCase().replace(/\s/g, "")
         );
+        if (matchedKey) {
+          const label = typeMap[matchedKey].label;
+          const match = tempData.find((d) => d.name === label);
+          if (match) match.value = item.count;
+        }
+      });
 
-        // Always include all 4 types
-        const tempData = Object.entries(typeMap).map(([key, value]) => ({
-          name: value.label,
-          value: 0,
-        }));
+      setData(tempData);
+    } catch (error) {
+      console.error("Failed to fetch asset type data:", error);
+    }
+  };
 
-        // Replace with actual values
-        response.data.forEach((item) => {
-          const key = item.type?.toLowerCase().replace(/\s/g, "");
-          if (typeMap[key]) {
-            const label = typeMap[key].label;
-            const match = tempData.find((d) => d.name === label);
-            if (match) match.value = item.count;
-          }
-        });
+  fetchAssetTypeData();
+}, []);
 
-        setData(tempData);
-      } catch (error) {
-        console.error("Failed to fetch asset type data:", error);
-      }
-    };
-
-    fetchAssetTypeData();
-  }, []);
 
   return (
     <div style={{ width: "100%", height: 300 }}>
