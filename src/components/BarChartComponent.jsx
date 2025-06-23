@@ -14,9 +14,9 @@ import axios from "axios";
 
 // Normalized type mapping: backend type => { label, color }
 const typeMap = {
-  hvac: { label: "HVAC", color: "#4CAF50" }, // green
-  electrical: { label: "Electrical", color: "#FFA500" }, // orange
-  plumbing: { label: "Plumbing", color: "#87CEFA" }, // light blue
+  hvac: { label: "HVAC", color: "#28a745" }, // green
+  electrical: { label: "Electrical", color: "#ff7f00" }, // orange
+  plumbing: { label: "Plumbing", color: "#40E0D0" }, // light blue
   firefighting: { label: "Fire Fighting", color: "#FF4C4C" }, // red
 };
 
