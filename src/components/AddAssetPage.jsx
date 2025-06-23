@@ -62,8 +62,8 @@ const AddAssetPage = () => {
     Object.entries(form).forEach(([key, value]) => {
       if (key !== "location") formData.append(key, value);
     });
-    formData.append("lat", form.location.lat);
-    formData.append("lng", form.location.lng);
+    formData.append("lat", form.location.latitude);
+    formData.append("lng", form.location.longitude);
 
     Object.entries(files).forEach(([key, file]) => {
       if (file) formData.append(key, file);
