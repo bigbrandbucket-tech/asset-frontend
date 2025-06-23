@@ -19,7 +19,7 @@ const AddUserPage = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/projects");
+        const res = await axios.get("http://asset-backend-tuna.onrender.com/api/projects");
         setProjects(res.data);
       } catch (err) {
         console.error("Error fetching projects:", err);
@@ -37,7 +37,7 @@ const AddUserPage = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/users", form);
+      const res = await axios.post("http://asset-backend-tuna.onrender.com/api/users", form);
       alert("User added successfully!");
       console.log(res.data);
     } catch (err) {

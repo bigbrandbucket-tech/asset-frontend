@@ -8,7 +8,7 @@ const ClientList = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/clients");
+        const res = await axios.get("http://asset-backend-tuna.onrender.com/api/clients");
         setClientList(res.data);
       } catch (err) {
         console.error("Failed to fetch clients:", err);

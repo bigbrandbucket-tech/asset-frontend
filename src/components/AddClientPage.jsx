@@ -21,7 +21,7 @@ const AddClientPage = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/clients", form);
+      const res = await axios.post("http://asset-backend-tuna.onrender.com/api/clients", form);
       alert("Client added successfully!");
       console.log(res.data);
     } catch (err) {

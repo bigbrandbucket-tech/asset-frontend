@@ -26,9 +26,9 @@ const AdminDashboard = () => {
     const fetchDashboardData = async () => {
       try {
         const [clientsRes, assetsRes, projectsRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/clients"),
-          axios.get("http://localhost:5000/api/assets"),
-          axios.get("http://localhost:5000/api/projects")
+          axios.get("http://asset-backend-tuna.onrender.com/api/clients"),
+          axios.get("http://asset-backend-tuna.onrender.com/api/assets"),
+          axios.get("http://asset-backend-tuna.onrender.com/api/projects")
         ]);
 
         const allAssets = assetsRes.data;

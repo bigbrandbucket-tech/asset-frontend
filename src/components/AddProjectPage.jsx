@@ -20,7 +20,7 @@ const AddProjectPage = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/clients");
+        const res = await axios.get("http://asset-backend-tuna.onrender.com/api/clients");
         setClients(res.data);
       } catch (err) {
         console.error("Error fetching clients:", err);
@@ -38,7 +38,7 @@ const AddProjectPage = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:5000/api/projects", form);
+      const res = await axios.post("http://asset-backend-tuna.onrender.com/api/projects", form);
       alert("Project added successfully!");
       console.log(res.data);
     } catch (err) {

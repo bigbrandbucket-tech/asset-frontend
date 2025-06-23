@@ -17,7 +17,7 @@ const BarChartComponent = () => {
   useEffect(() => {
     const fetchAssetTypeData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/assets/type-count");
+        const response = await axios.get("http://asset-backend-tuna.onrender.com/api/assets/type-count");
         // Convert backend response into the format expected by Recharts
         const formattedData = response.data.map((item) => ({
           name: item.type,
