@@ -131,7 +131,7 @@ const AddAssetPage = () => {
               </div>
 
               <div className={styles.formGroup}>
-                <label htmlFor="makeOrOEM">OEM / MANUFACTURER</label>
+                <label htmlFor="makeOrOEM">OEM / Manufacturer</label>
                 <div style={{ display: "flex", gap: "10px" }}>
                   <select
                     id="makeOrOEM"

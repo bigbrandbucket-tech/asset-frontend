@@ -27,7 +27,7 @@ const AssetListPage = ({ showActiveOnly = false }) => {
         <thead>
           <tr>
             <th>Type</th>
-            <th>OEM / MANUFACTURER</th>
+            <th>OEM / Manufacturer</th>
             <th>Asset Name</th>
             <th>Model</th>
             <th>Equipment No.</th>
