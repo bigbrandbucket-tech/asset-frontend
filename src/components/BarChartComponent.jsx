@@ -17,7 +17,7 @@ const typeMap = {
   Hvac: { label: "HVAC", color: "#28a745" }, // green
   Electrical: { label: "Electrical", color: "#ff7f00" }, // orange
   Plumbing: { label: "Plumbing", color: "#40E0D0" }, // light blue
-  Firefighting: { label: "Fire Fighting", color: "#FF4C4C" }, // red
+  Fire: { label: "Fire Fighting", color: "#FF4C4C" }, // red
 };
 
 const CustomBar = (props) => {
