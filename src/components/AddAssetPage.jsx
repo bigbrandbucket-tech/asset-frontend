@@ -168,27 +168,28 @@ const AddAssetPage = () => {
                 <input type="date" name="warrantyExpiryDate" value={form.warrantyExpiryDate} onChange={handleChange} required />
               </div>
 
-              <div className={styles.formGroup}>
-                <label htmlFor="latitude">Latitude</label>
-                <input
-                  type="text"
-                  name="latitude"
-                  value={form.latitude}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+<div className={styles.formGroup}>
+  <label>Location Coordinates</label>
+  <div className={styles.coordRow}>
+    <input
+      type="text"
+      name="latitude"
+      placeholder="Latitude"
+      value={form.latitude}
+      onChange={handleChange}
+      required
+    />
+    <input
+      type="text"
+      name="longitude"
+      placeholder="Longitude"
+      value={form.longitude}
+      onChange={handleChange}
+      required
+    />
+  </div>
+</div>
 
-              <div className={styles.formGroup}>
-                <label htmlFor="longitude">Longitude</label>
-                <input
-                  type="text"
-                  name="longitude"
-                  value={form.longitude}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
 
             </div>
 
