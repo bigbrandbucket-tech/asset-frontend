@@ -5,6 +5,8 @@ import SideNavBar from "./SideNavBar";
 import Header from "./Header";
 
 const AddAssetPage = () => {
+  const [selectedProject, setSelectedProject] = useState(""); // ✅ project from header
+
   const [form, setForm] = useState({
     type: "",
     makeOrOEM: "",
@@ -59,6 +61,11 @@ const AddAssetPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!selectedProject) {
+      alert("Please select a project before submitting.");
+      return;
+    }
+
     const formData = new FormData();
 
     // Append non-nested fields
@@ -76,6 +83,9 @@ const AddAssetPage = () => {
     Object.entries(files).forEach(([key, file]) => {
       if (file) formData.append(key, file);
     });
+
+    // ✅ Append associatedProject
+    formData.append("associatedProject", selectedProject);
 
     try {
       const res = await axios.post(
@@ -104,12 +114,15 @@ const AddAssetPage = () => {
     }
   };
 
+  const isFormDisabled = !selectedProject;
+
   return (
     <div className={styles.container}>
       <SideNavBar />
       <div className={styles.mainContent}>
         <div className={styles.headerWrapper}>
-          <Header />
+          {/* ✅ Pass project selection handler to Header */}
+          <Header onProjectSelect={(id) => setSelectedProject(id)} />
         </div>
 
         <div className={styles.formContainer}>
@@ -128,6 +141,7 @@ const AddAssetPage = () => {
                   value={form.type}
                   onChange={handleChange}
                   required
+                  disabled={isFormDisabled}
                 >
                   <option value="">-- Select Type --</option>
                   <option value="Electrical">Electrical</option>
@@ -146,34 +160,35 @@ const AddAssetPage = () => {
                     value={form.makeOrOEM}
                     onChange={handleChange}
                     required
+                    disabled={isFormDisabled}
                   >
                     <option value="">-- Select Manufacturer --</option>
                     {manufacturers[form.type]?.map((mfr, idx) => (
                       <option key={idx} value={mfr}>{mfr}</option>
                     ))}
                   </select>
-                  <button type="button" onClick={() => setShowModal(true)}>+</button>
+                  <button type="button" onClick={() => setShowModal(true)} disabled={isFormDisabled}>+</button>
                 </div>
               </div>
 
               <div className={styles.formGroup}>
                 <label htmlFor="assetName">Equipment Name</label>
-                <input type="text" name="assetName" value={form.assetName} onChange={handleChange} required />
+                <input type="text" name="assetName" value={form.assetName} onChange={handleChange} required disabled={isFormDisabled} />
               </div>
 
               <div className={styles.formGroup}>
                 <label htmlFor="model">Model</label>
-                <input type="text" name="model" value={form.model} onChange={handleChange} required />
+                <input type="text" name="model" value={form.model} onChange={handleChange} required disabled={isFormDisabled} />
               </div>
 
               <div className={styles.formGroup}>
                 <label htmlFor="tag">Equipment Number</label>
-                <input type="text" name="tag" value={form.tag} onChange={handleChange} required />
+                <input type="text" name="tag" value={form.tag} onChange={handleChange} required disabled={isFormDisabled} />
               </div>
 
               <div className={styles.formGroup}>
                 <label htmlFor="warrantyExpiryDate">Warranty Expiry Date</label>
-                <input type="date" name="warrantyExpiryDate" value={form.warrantyExpiryDate} onChange={handleChange} required />
+                <input type="date" name="warrantyExpiryDate" value={form.warrantyExpiryDate} onChange={handleChange} required disabled={isFormDisabled} />
               </div>
 
               <div className={styles.formGroup}>
@@ -186,6 +201,7 @@ const AddAssetPage = () => {
                     value={form.location.latitude}
                     onChange={handleChange}
                     required
+                    disabled={isFormDisabled}
                     style={{ flex: 1 }}
                   />
                   <input
@@ -195,6 +211,7 @@ const AddAssetPage = () => {
                     value={form.location.longitude}
                     onChange={handleChange}
                     required
+                    disabled={isFormDisabled}
                     style={{ flex: 1 }}
                   />
                 </div>
@@ -207,27 +224,29 @@ const AddAssetPage = () => {
                 <label>Technical Datasheets</label>
 
                 <label htmlFor="ga">Upload GA Drawing</label>
-                <input type="file" name="ga" accept=".pdf,.dwg,.jpg,.png" onChange={handleFileChange} />
+                <input type="file" name="ga" accept=".pdf,.dwg,.jpg,.png" onChange={handleFileChange} disabled={isFormDisabled} />
 
                 <label htmlFor="curve">Upload Curve</label>
-                <input type="file" name="curve" accept=".pdf,.jpg,.png" onChange={handleFileChange} />
+                <input type="file" name="curve" accept=".pdf,.jpg,.png" onChange={handleFileChange} disabled={isFormDisabled} />
 
                 <label htmlFor="performance">Upload Performance</label>
-                <input type="file" name="performance" accept=".pdf,.xls,.xlsx" onChange={handleFileChange} />
+                <input type="file" name="performance" accept=".pdf,.xls,.xlsx" onChange={handleFileChange} disabled={isFormDisabled} />
               </div>
 
               <div className={styles.formGroup}>
                 <label htmlFor="spares">Upload Spares & Manuals</label>
-                <input type="file" name="spares" accept=".pdf,.doc,.docx,.zip" onChange={handleFileChange} />
+                <input type="file" name="spares" accept=".pdf,.doc,.docx,.zip" onChange={handleFileChange} disabled={isFormDisabled} />
               </div>
 
               <div className={styles.formGroup}>
                 <label htmlFor="image">Upload Image</label>
-                <input type="file" name="image" accept="image/*" onChange={handleFileChange} />
+                <input type="file" name="image" accept="image/*" onChange={handleFileChange} disabled={isFormDisabled} />
               </div>
             </div>
 
-            <button type="submit" className={styles.submitBtn}>Add Asset</button>
+            <button type="submit" className={styles.submitBtn} disabled={isFormDisabled}>
+              {isFormDisabled ? "Select Project to Enable" : "Add Asset"}
+            </button>
           </form>
 
           {/* QR Code Section */}

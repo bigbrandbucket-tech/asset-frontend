@@ -40,3 +40,15 @@
     background-color: #262756;
     color: white
   }
+
+  .dropdownContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.dropdownContainer select {
+  padding: 4px 8px;
+  font-size: 14px;
+}

@@ -15,6 +15,8 @@ const AddUserPage = () => {
 
   const [projects, setProjects] = useState([]);
 
+  const isFormDisabled = !form.assignedProject;
+
   // Fetch projects for dropdown
   useEffect(() => {
     const fetchProjects = async () => {
@@ -35,6 +37,11 @@ const AddUserPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!form.assignedProject) {
+      alert("Please select a project before submitting.");
+      return;
+    }
 
     try {
       const res = await axios.post("http://asset-backend-tuna.onrender.com/api/users", form);
@@ -70,6 +77,7 @@ const AddUserPage = () => {
                   value={form.username}
                   onChange={handleChange}
                   required
+                  disabled={isFormDisabled}
                 />
               </div>
 
@@ -81,6 +89,7 @@ const AddUserPage = () => {
                   name="email"
                   value={form.email}
                   onChange={handleChange}
+                  disabled={isFormDisabled}
                 />
               </div>
 
@@ -94,6 +103,7 @@ const AddUserPage = () => {
                   placeholder="10-digit number"
                   value={form.phone}
                   onChange={handleChange}
+                  disabled={isFormDisabled}
                 />
               </div>
             </div>
@@ -107,8 +117,7 @@ const AddUserPage = () => {
                   value={form.role}
                   onChange={handleChange}
                   required
-                
-                  
+                  disabled={isFormDisabled}
                 />
               </div>
 
@@ -130,8 +139,8 @@ const AddUserPage = () => {
               </div>
             </div>
 
-            <button type="submit" className={styles.submitBtn}>
-              Add User
+            <button type="submit" className={styles.submitBtn} disabled={isFormDisabled}>
+              {isFormDisabled ? "Select Project to Enable" : "Add User"}
             </button>
           </form>
         </div>
