@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import styles from "./AddAssetPage.module.css";
 import SideNavBar from "./SideNavBar";
 import Header from "./Header";
+import { ProjectContext } from "./ProjectContext"; // ✅ using context
 
 const AddAssetPage = () => {
-  const [selectedProject, setSelectedProject] = useState(""); // ✅ project from header
+  const { selectedProject } = useContext(ProjectContext); // ✅ context usage
 
   const [form, setForm] = useState({
     type: "",
@@ -68,32 +69,27 @@ const AddAssetPage = () => {
 
     const formData = new FormData();
 
-    // Append non-nested fields
     Object.entries(form).forEach(([key, value]) => {
       if (key !== "location") {
         formData.append(key, value);
       }
     });
 
-    // Append location fields
     formData.append("latitude", form.location.latitude);
     formData.append("longitude", form.location.longitude);
 
-    // Append files
     Object.entries(files).forEach(([key, file]) => {
       if (file) formData.append(key, file);
     });
 
-    // ✅ Append associatedProject
-    formData.append("associatedProject", selectedProject);
+    formData.append("associatedProject", selectedProject); // ✅ associate project
 
     try {
       const res = await axios.post(
-        "https://asset-backend-tuna.onrender.com/api/assets/upload",
+        "/assets/upload",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-
       alert("Asset uploaded successfully!");
       setQrCodeUrl(res.data.qrCode);
     } catch (err) {
@@ -121,8 +117,7 @@ const AddAssetPage = () => {
       <SideNavBar />
       <div className={styles.mainContent}>
         <div className={styles.headerWrapper}>
-          {/* ✅ Pass project selection handler to Header */}
-          <Header onProjectSelect={(id) => setSelectedProject(id)} />
+          <Header />
         </div>
 
         <div className={styles.formContainer}>
@@ -131,7 +126,6 @@ const AddAssetPage = () => {
           </div>
 
           <form className={styles.twoColumnForm} onSubmit={handleSubmit}>
-            {/* Left Column */}
             <div className={styles.column}>
               <div className={styles.formGroup}>
                 <label htmlFor="type">Type</label>
@@ -218,29 +212,25 @@ const AddAssetPage = () => {
               </div>
             </div>
 
-            {/* Right Column */}
             <div className={styles.column}>
               <div className={`${styles.formGroup} ${styles.technicalSection}`}>
                 <label>Technical Datasheets</label>
-
                 <label htmlFor="ga">Upload GA Drawing</label>
-                <input type="file" name="ga" accept=".pdf,.dwg,.jpg,.png" onChange={handleFileChange} disabled={isFormDisabled} />
-
+                <input type="file" name="ga" onChange={handleFileChange} disabled={isFormDisabled} />
                 <label htmlFor="curve">Upload Curve</label>
-                <input type="file" name="curve" accept=".pdf,.jpg,.png" onChange={handleFileChange} disabled={isFormDisabled} />
-
+                <input type="file" name="curve" onChange={handleFileChange} disabled={isFormDisabled} />
                 <label htmlFor="performance">Upload Performance</label>
-                <input type="file" name="performance" accept=".pdf,.xls,.xlsx" onChange={handleFileChange} disabled={isFormDisabled} />
+                <input type="file" name="performance" onChange={handleFileChange} disabled={isFormDisabled} />
               </div>
 
               <div className={styles.formGroup}>
                 <label htmlFor="spares">Upload Spares & Manuals</label>
-                <input type="file" name="spares" accept=".pdf,.doc,.docx,.zip" onChange={handleFileChange} disabled={isFormDisabled} />
+                <input type="file" name="spares" onChange={handleFileChange} disabled={isFormDisabled} />
               </div>
 
               <div className={styles.formGroup}>
                 <label htmlFor="image">Upload Image</label>
-                <input type="file" name="image" accept="image/*" onChange={handleFileChange} disabled={isFormDisabled} />
+                <input type="file" name="image" onChange={handleFileChange} disabled={isFormDisabled} />
               </div>
             </div>
 
@@ -249,29 +239,13 @@ const AddAssetPage = () => {
             </button>
           </form>
 
-          {/* QR Code Section */}
           {qrCodeUrl && (
             <div style={{ marginTop: "2rem", textAlign: "center" }}>
               <h3>QR Code for Asset</h3>
-              <img
-                src={qrCodeUrl}
-                alt="Asset QR Code"
-                style={{ width: "200px", padding: "8px", background: "#fff", border: "1px solid #ccc" }}
-              />
+              <img src={qrCodeUrl} alt="QR Code" style={{ width: "200px", padding: "8px", background: "#fff", border: "1px solid #ccc" }} />
               <br />
               <a href={qrCodeUrl} download="asset_qrcode.png">
-                <button
-                  style={{
-                    marginTop: "1rem",
-                    padding: "10px 20px",
-                    fontSize: "14px",
-                    backgroundColor: "#4CAF50",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: "pointer"
-                  }}
-                >
+                <button style={{ marginTop: "1rem", padding: "10px 20px", backgroundColor: "#4CAF50", color: "#fff", border: "none", borderRadius: "5px" }}>
                   Download QR Code
                 </button>
               </a>
@@ -280,7 +254,6 @@ const AddAssetPage = () => {
         </div>
       </div>
 
-      {/* Modal */}
       {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>

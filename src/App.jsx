@@ -14,33 +14,34 @@ import ClientListPage from "./components/ClientListPage";
 import UserListPage from "./components/UserListPage";
 import ProjectListPage from "./components/ProjectListPage";
 import AddProjectPage from "./components/AddProjectPage";
-import ScanAsset from "./components/ScanAsset"; // ✅ NEW IMPORT
+import ScanAsset from "./components/ScanAsset"; // ✅ QR Scan
 
+import { ProjectProvider } from "./components/ProjectContext"; // ✅ Add this
 import styles from "./App.module.css";
 
-axios.defaults.baseURL = "https://asset-backend-tuna.onrender.com/api"; // ✅ GLOBAL API
+axios.defaults.baseURL = "https://asset-backend-tuna.onrender.com/api"; // ✅ Global API
 
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/Admindashboard" element={<AdminDashboard />} />
-        <Route path="/AddClientPage" element={<AddClientPage />} />
-        <Route path="/AddAssetPage" element={<AddAssetPage />} />
-        <Route path="/TotalClientsPage" element={<ClientListPage />} />
-        <Route path="/total-assets" element={<TotalAssetsPage />} />
-        <Route path="/active-assets" element={<ActiveAssetsPage />} />
-        <Route path="/ClientListPage" element={<ClientListPage />} />
-        <Route path="/ProjectListPage" element={<ProjectListPage />} />
-        <Route path="/AddProjectPage" element={<AddProjectPage />} />
-        <Route path="/AddUserPage" element={<AddUserPage />} />
-        <Route path="/UserListPage" element={<UserListPage />} />
-        <Route path="/MaintenanceAlertsPage" element={<MaintenanceAlertsPage />} />
-
-        {/* ✅ NEW QR SCAN ROUTE */}
-        <Route path="/scan" element={<ScanAsset />} />
-      </Routes>
+      <ProjectProvider>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/Admindashboard" element={<AdminDashboard />} />
+          <Route path="/AddClientPage" element={<AddClientPage />} />
+          <Route path="/AddAssetPage" element={<AddAssetPage />} />
+          <Route path="/TotalClientsPage" element={<ClientListPage />} />
+          <Route path="/total-assets" element={<TotalAssetsPage />} />
+          <Route path="/active-assets" element={<ActiveAssetsPage />} />
+          <Route path="/ClientListPage" element={<ClientListPage />} />
+          <Route path="/ProjectListPage" element={<ProjectListPage />} />
+          <Route path="/AddProjectPage" element={<AddProjectPage />} />
+          <Route path="/AddUserPage" element={<AddUserPage />} />
+          <Route path="/UserListPage" element={<UserListPage />} />
+          <Route path="/MaintenanceAlertsPage" element={<MaintenanceAlertsPage />} />
+          <Route path="/scan" element={<ScanAsset />} />
+        </Routes>
+      </ProjectProvider>
     </Router>
   );
 };

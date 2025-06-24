@@ -2,34 +2,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import SideNavBar from "./SideNavBar";
 import Header from "./Header";
-import styles from "./AddUserPage.module.css"; 
+import styles from "./AddUserPage.module.css";
+import { useProject } from "./ProjectContext"; // <-- Import context
 
 const AddUserPage = () => {
+  const { selectedProject } = useProject(); // <-- Use selected project
   const [form, setForm] = useState({
     username: "",
     email: "",
     phone: "",
-    role: "",
-    assignedProject: "",
+    role: ""
   });
-
-  const [projects, setProjects] = useState([]);
-
-  const isFormDisabled = !form.assignedProject;
-
-  // Fetch projects for dropdown
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const res = await axios.get("http://asset-backend-tuna.onrender.com/api/projects");
-        setProjects(res.data);
-      } catch (err) {
-        console.error("Error fetching projects:", err);
-      }
-    };
-
-    fetchProjects();
-  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -38,13 +21,22 @@ const AddUserPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.assignedProject) {
-      alert("Please select a project before submitting.");
+    if (!selectedProject) {
+      alert("Please select a project from the dropdown in header first.");
       return;
     }
 
     try {
-      const res = await axios.post("http://asset-backend-tuna.onrender.com/api/users", form);
+      const payload = {
+        ...form,
+        assignedProject: selectedProject // <-- Inject here
+      };
+
+      const res = await axios.post(
+        "http://asset-backend-tuna.onrender.com/api/users",
+        payload
+      );
+
       alert("User added successfully!");
       console.log(res.data);
     } catch (err) {
@@ -77,7 +69,6 @@ const AddUserPage = () => {
                   value={form.username}
                   onChange={handleChange}
                   required
-                  disabled={isFormDisabled}
                 />
               </div>
 
@@ -89,7 +80,6 @@ const AddUserPage = () => {
                   name="email"
                   value={form.email}
                   onChange={handleChange}
-                  disabled={isFormDisabled}
                 />
               </div>
 
@@ -103,7 +93,6 @@ const AddUserPage = () => {
                   placeholder="10-digit number"
                   value={form.phone}
                   onChange={handleChange}
-                  disabled={isFormDisabled}
                 />
               </div>
             </div>
@@ -117,30 +106,16 @@ const AddUserPage = () => {
                   value={form.role}
                   onChange={handleChange}
                   required
-                  disabled={isFormDisabled}
                 />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="assignedProject">Assigned Project</label>
-                <select
-                  id="assignedProject"
-                  name="assignedProject"
-                  value={form.assignedProject}
-                  onChange={handleChange}
-                >
-                  <option value="">-- Select Project --</option>
-                  {projects.map((project) => (
-                    <option key={project._id} value={project._id}>
-                      {project.projectName}
-                    </option>
-                  ))}
-                </select>
               </div>
             </div>
 
-            <button type="submit" className={styles.submitBtn} disabled={isFormDisabled}>
-              {isFormDisabled ? "Select Project to Enable" : "Add User"}
+            <button
+              type="submit"
+              className={styles.submitBtn}
+              disabled={!selectedProject}
+            >
+              {selectedProject ? "Add User" : "Select Project First"}
             </button>
           </form>
         </div>
