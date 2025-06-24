@@ -44,18 +44,26 @@ const Header = ({ onProjectSelect }) => {
 
         <div className={styles.headerButtons}>
           {showDropdown && (
-            <select
-              className={styles.projectSelect}
-              value={selectedProject}
-              onChange={handleProjectChange}
-            >
-              <option value="">-- Choose a project --</option>
-              {projects.map((proj) => (
-                <option key={proj._id} value={proj._id}>
-                  {proj.projectName}
+            <div className={styles.projectWrapper}>
+              <label htmlFor="projectSelect" className={styles.projectLabel}>
+                Select Project
+              </label>
+              <select
+                id="projectSelect"
+                className={styles.projectSelect}
+                value={selectedProject}
+                onChange={handleProjectChange}
+              >
+                <option value="" disabled hidden>
+                  Choose
                 </option>
-              ))}
-            </select>
+                {projects.map((proj) => (
+                  <option key={proj._id} value={proj._id}>
+                    {proj.projectName}
+                  </option>
+                ))}
+              </select>
+            </div>
           )}
 
           <button className={styles.headerBtn}>Profile</button>

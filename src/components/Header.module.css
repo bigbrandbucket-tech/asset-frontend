@@ -24,39 +24,46 @@
 
 .headerButtons {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 12px;
 }
 
-/* ✅ Dropdown styled separately from buttons */
+/* --- Project Dropdown Section --- */
+.projectWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 12px;
+}
+
+.projectLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #262756;
+  margin-bottom: 4px;
+  margin-left: 4px;
+}
+
 .projectSelect {
-  width: 100px;
+  width: 120px;
   height: 36px;
   padding: 0 10px;
   background-color: white;
-  color: #262756; /* Normal readable text color */
+  color: #262756;
   border: 1px solid #ccc;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   appearance: none;
-  transition: border-color 0.2s ease;
 }
 
-.projectSelect:hover,
 .projectSelect:focus {
   outline: none;
-  border-color: #a8a8d3;
+  box-shadow: 0 0 0 2px #c1c1e1;
 }
 
-/* ✅ Placeholder style */
-.projectSelect option[value=""] {
-  color: #888;        /* Lighter text */
-  font-style: italic;
-  font-size: 13px;
-}
-
+/* --- Buttons --- */
 .headerBtn {
   width: 100px;
   padding: 8px 16px;
