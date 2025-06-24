@@ -10,13 +10,10 @@ const Header = ({ onProjectSelect }) => {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
 
-  // Show dropdown only on specific routes
-const showDropdown = ["/AddAssetPage", "/AddUserPage"].includes(location.pathname);
+  const showDropdown = ["/AddAssetPage", "/AddUserPage"].includes(location.pathname);
 
   useEffect(() => {
-    if (showDropdown) {
-      fetchProjects();
-    }
+    if (showDropdown) fetchProjects();
   }, [showDropdown]);
 
   const fetchProjects = async () => {
@@ -32,7 +29,7 @@ const showDropdown = ["/AddAssetPage", "/AddUserPage"].includes(location.pathnam
     const projectId = e.target.value;
     setSelectedProject(projectId);
     if (onProjectSelect) {
-      onProjectSelect(projectId); // Notify parent
+      onProjectSelect(projectId);
     }
   };
 
@@ -41,36 +38,39 @@ const showDropdown = ["/AddAssetPage", "/AddUserPage"].includes(location.pathnam
   };
 
   return (
-    <>
-      <header className={styles.header}>
-        <div className={styles.container}>
-          <h1>Admin Dashboard</h1>
+    <header className={styles.header}>
+      <div className={styles.container}>
+        <h1 className={styles.dashboardTitle}>Admin Dashboard</h1>
 
-          {showDropdown && (
-            <div className={styles.dropdownContainer}>
-              <label htmlFor="projectSelect">Select Project:</label>
-              <select
-                id="projectSelect"
-                value={selectedProject}
-                onChange={handleProjectChange}
-              >
-                <option value="">-- Choose a project --</option>
-                {projects.map((proj) => (
-                  <option key={proj._id} value={proj._id}>
-                    {proj.projectName}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-
-          <div className={styles.headerButtons}>
-            <button>Profile</button>
-            <button onClick={handleLogoutOnclick}>Logout</button>
+        {showDropdown && (
+          <div className={styles.projectSelector}>
+            <label htmlFor="projectSelect" className={styles.label}>
+              Select Project:
+            </label>
+            <select
+              id="projectSelect"
+              className={styles.projectDropdown}
+              value={selectedProject}
+              onChange={handleProjectChange}
+            >
+              <option value="">-- Choose a project --</option>
+              {projects.map((proj) => (
+                <option key={proj._id} value={proj._id}>
+                  {proj.projectName}
+                </option>
+              ))}
+            </select>
           </div>
+        )}
+
+        <div className={styles.headerButtons}>
+          <button className={styles.headerBtn}>Profile</button>
+          <button className={styles.headerBtn} onClick={handleLogoutOnclick}>
+            Logout
+          </button>
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 };
 
