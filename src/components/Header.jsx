@@ -55,7 +55,7 @@ const Header = ({ onProjectSelect }) => {
                 onChange={handleProjectChange}
               >
                 <option value="" disabled hidden>
-                  Choose
+                  --Choose--
                 </option>
                 {projects.map((proj) => (
                   <option key={proj._id} value={proj._id}>
