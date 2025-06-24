@@ -28,26 +28,33 @@
   gap: 12px;
 }
 
-/* Updated dropdown to match button style */
+/* ✅ Dropdown styled separately from buttons */
 .projectSelect {
   width: 100px;
   height: 36px;
   padding: 0 10px;
   background-color: white;
-  color: #ffffff;
-  border: none;
+  color: #262756; /* Normal readable text color */
+  border: 1px solid #ccc;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   appearance: none;
-  transition: background-color 0.3s ease;
+  transition: border-color 0.2s ease;
 }
 
 .projectSelect:hover,
 .projectSelect:focus {
-  
   outline: none;
+  border-color: #a8a8d3;
+}
+
+/* ✅ Placeholder style */
+.projectSelect option[value=""] {
+  color: #888;        /* Lighter text */
+  font-style: italic;
+  font-size: 13px;
 }
 
 .headerBtn {

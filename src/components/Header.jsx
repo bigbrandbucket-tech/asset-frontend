@@ -57,6 +57,7 @@ const Header = ({ onProjectSelect }) => {
               ))}
             </select>
           )}
+
           <button className={styles.headerBtn}>Profile</button>
           <button className={styles.headerBtn} onClick={handleLogoutOnclick}>
             Logout
