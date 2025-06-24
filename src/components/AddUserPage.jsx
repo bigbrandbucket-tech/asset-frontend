@@ -3,10 +3,10 @@ import axios from "axios";
 import SideNavBar from "./SideNavBar";
 import Header from "./Header";
 import styles from "./AddUserPage.module.css";
-import { useProject } from "./ProjectContext"; // <-- Import context
+import { useProject } from "./ProjectContext"; // <-- Context for project
 
 const AddUserPage = () => {
-  const { selectedProject } = useProject(); // <-- Use selected project
+  const { selectedProject } = useProject(); // <-- Global selected project
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -29,11 +29,11 @@ const AddUserPage = () => {
     try {
       const payload = {
         ...form,
-        assignedProject: selectedProject // <-- Inject here
+        assignedProject: selectedProject
       };
 
       const res = await axios.post(
-        "http://asset-backend-tuna.onrender.com/api/users",
+        "https://asset-backend-tuna.onrender.com/api/users",
         payload
       );
 
@@ -44,6 +44,8 @@ const AddUserPage = () => {
       alert("Failed to add user.");
     }
   };
+
+  const isFormDisabled = !selectedProject;
 
   return (
     <div className={styles.container}>
@@ -59,6 +61,7 @@ const AddUserPage = () => {
           </div>
 
           <form className={styles.twoColumnForm} onSubmit={handleSubmit}>
+            {/* Left Column */}
             <div className={styles.column}>
               <div className={styles.formGroup}>
                 <label htmlFor="username">Username</label>
@@ -69,17 +72,7 @@ const AddUserPage = () => {
                   value={form.username}
                   onChange={handleChange}
                   required
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label htmlFor="email">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
+                  disabled={isFormDisabled}
                 />
               </div>
 
@@ -93,19 +86,35 @@ const AddUserPage = () => {
                   placeholder="10-digit number"
                   value={form.phone}
                   onChange={handleChange}
+                  disabled={isFormDisabled}
                 />
               </div>
             </div>
 
+            {/* Right Column */}
             <div className={styles.column}>
+              <div className={styles.formGroup}>
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  disabled={isFormDisabled}
+                />
+              </div>
+
               <div className={styles.formGroup}>
                 <label htmlFor="role">Role</label>
                 <input
+                  type="text"
                   id="role"
                   name="role"
                   value={form.role}
                   onChange={handleChange}
                   required
+                  disabled={isFormDisabled}
                 />
               </div>
             </div>
@@ -113,9 +122,9 @@ const AddUserPage = () => {
             <button
               type="submit"
               className={styles.submitBtn}
-              disabled={!selectedProject}
+              disabled={isFormDisabled}
             >
-              {selectedProject ? "Add User" : "Select Project First"}
+              Submit
             </button>
           </form>
         </div>

@@ -3,10 +3,10 @@ import axios from "axios";
 import styles from "./AddAssetPage.module.css";
 import SideNavBar from "./SideNavBar";
 import Header from "./Header";
-import { ProjectContext } from "./ProjectContext"; // ✅ using context
+import { ProjectContext } from "./ProjectContext";
 
 const AddAssetPage = () => {
-  const { selectedProject } = useContext(ProjectContext); // ✅ context usage
+  const { selectedProject } = useContext(ProjectContext);
 
   const [form, setForm] = useState({
     type: "",
@@ -15,10 +15,7 @@ const AddAssetPage = () => {
     model: "",
     tag: "",
     warrantyExpiryDate: "",
-    location: {
-      latitude: "",
-      longitude: ""
-    }
+    location: { latitude: "", longitude: "" }
   });
 
   const [files, setFiles] = useState({
@@ -40,16 +37,14 @@ const AddAssetPage = () => {
     Plumbing: ["Jaquar", "Hindware", "Kohler"]
   });
 
+  const isFormDisabled = !selectedProject;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name === "latitude" || name === "longitude") {
       setForm((prev) => ({
         ...prev,
-        location: {
-          ...prev.location,
-          [name]: value
-        }
+        location: { ...prev.location, [name]: value }
       }));
     } else {
       setForm({ ...form, [name]: value });
@@ -63,33 +58,27 @@ const AddAssetPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedProject) {
-      alert("Please select a project before submitting.");
+      alert("Please select a project first.");
       return;
     }
 
     const formData = new FormData();
-
     Object.entries(form).forEach(([key, value]) => {
-      if (key !== "location") {
-        formData.append(key, value);
-      }
+      if (key !== "location") formData.append(key, value);
     });
 
     formData.append("latitude", form.location.latitude);
     formData.append("longitude", form.location.longitude);
-
     Object.entries(files).forEach(([key, file]) => {
       if (file) formData.append(key, file);
     });
 
-    formData.append("associatedProject", selectedProject); // ✅ associate project
+    formData.append("associatedProject", selectedProject);
 
     try {
-      const res = await axios.post(
-        "/assets/upload",
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+      const res = await axios.post("/assets/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
       alert("Asset uploaded successfully!");
       setQrCodeUrl(res.data.qrCode);
     } catch (err) {
@@ -110,8 +99,6 @@ const AddAssetPage = () => {
     }
   };
 
-  const isFormDisabled = !selectedProject;
-
   return (
     <div className={styles.container}>
       <SideNavBar />
@@ -126,11 +113,11 @@ const AddAssetPage = () => {
           </div>
 
           <form className={styles.twoColumnForm} onSubmit={handleSubmit}>
+            {/* LEFT COLUMN */}
             <div className={styles.column}>
               <div className={styles.formGroup}>
                 <label htmlFor="type">Type</label>
                 <select
-                  id="type"
                   name="type"
                   value={form.type}
                   onChange={handleChange}
@@ -149,7 +136,6 @@ const AddAssetPage = () => {
                 <label htmlFor="makeOrOEM">OEM / Manufacturer</label>
                 <div style={{ display: "flex", gap: "10px" }}>
                   <select
-                    id="makeOrOEM"
                     name="makeOrOEM"
                     value={form.makeOrOEM}
                     onChange={handleChange}
@@ -157,8 +143,10 @@ const AddAssetPage = () => {
                     disabled={isFormDisabled}
                   >
                     <option value="">-- Select Manufacturer --</option>
-                    {manufacturers[form.type]?.map((mfr, idx) => (
-                      <option key={idx} value={mfr}>{mfr}</option>
+                    {manufacturers[form.type]?.map((mfr, i) => (
+                      <option key={i} value={mfr}>
+                        {mfr}
+                      </option>
                     ))}
                   </select>
                   <button type="button" onClick={() => setShowModal(true)} disabled={isFormDisabled}>+</button>
@@ -188,32 +176,15 @@ const AddAssetPage = () => {
               <div className={styles.formGroup}>
                 <label>Location Coordinates</label>
                 <div style={{ display: "flex", gap: "10px" }}>
-                  <input
-                    type="text"
-                    name="latitude"
-                    placeholder="Latitude"
-                    value={form.location.latitude}
-                    onChange={handleChange}
-                    required
-                    disabled={isFormDisabled}
-                    style={{ flex: 1 }}
-                  />
-                  <input
-                    type="text"
-                    name="longitude"
-                    placeholder="Longitude"
-                    value={form.location.longitude}
-                    onChange={handleChange}
-                    required
-                    disabled={isFormDisabled}
-                    style={{ flex: 1 }}
-                  />
+                  <input type="text" name="latitude" placeholder="Latitude" value={form.location.latitude} onChange={handleChange} required disabled={isFormDisabled} />
+                  <input type="text" name="longitude" placeholder="Longitude" value={form.location.longitude} onChange={handleChange} required disabled={isFormDisabled} />
                 </div>
               </div>
             </div>
 
+            {/* RIGHT COLUMN */}
             <div className={styles.column}>
-              <div className={`${styles.formGroup} ${styles.technicalSection}`}>
+              <div className={styles.formGroup}>
                 <label>Technical Datasheets</label>
                 <label htmlFor="ga">Upload GA Drawing</label>
                 <input type="file" name="ga" onChange={handleFileChange} disabled={isFormDisabled} />
@@ -235,10 +206,11 @@ const AddAssetPage = () => {
             </div>
 
             <button type="submit" className={styles.submitBtn} disabled={isFormDisabled}>
-              {isFormDisabled ? "Select Project to Enable" : "Add Asset"}
+              Submit
             </button>
           </form>
 
+          {/* QR Code Preview */}
           {qrCodeUrl && (
             <div style={{ marginTop: "2rem", textAlign: "center" }}>
               <h3>QR Code for Asset</h3>
@@ -254,17 +226,13 @@ const AddAssetPage = () => {
         </div>
       </div>
 
+      {/* Manufacturer Modal */}
       {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <h3>Add New Manufacturer</h3>
             <label>Type: <strong>{form.type}</strong></label>
-            <input
-              type="text"
-              placeholder="Enter Manufacturer Name"
-              value={newManufacturer}
-              onChange={(e) => setNewManufacturer(e.target.value)}
-            />
+            <input type="text" placeholder="Enter Manufacturer Name" value={newManufacturer} onChange={(e) => setNewManufacturer(e.target.value)} />
             <div className={styles.modalButtons}>
               <button className={styles.saveBtn} onClick={handleAddManufacturer}>Save</button>
               <button className={styles.cancelBtn} onClick={() => setShowModal(false)}>Cancel</button>
