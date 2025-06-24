@@ -18,7 +18,7 @@ const Header = ({ onProjectSelect }) => {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get("/api/projects");
+      const res = await axios.get("/projects");
       setProjects(res.data);
     } catch (err) {
       console.error("Failed to fetch projects:", err);
