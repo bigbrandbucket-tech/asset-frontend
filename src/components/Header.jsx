@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import styles from "./Header.module.css";
+import { useProject } from "./ProjectContext"; // ✅ import context
 
-const Header = ({ onProjectSelect }) => {
+const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { selectedProject, setSelectedProject } = useProject(); // ✅ use global state
 
   const [projects, setProjects] = useState([]);
-  const [selectedProject, setSelectedProject] = useState("");
 
   const showDropdown = ["/AddAssetPage", "/AddUserPage"].includes(location.pathname);
 
@@ -27,10 +28,7 @@ const Header = ({ onProjectSelect }) => {
 
   const handleProjectChange = (e) => {
     const projectId = e.target.value;
-    setSelectedProject(projectId);
-    if (onProjectSelect) {
-      onProjectSelect(projectId);
-    }
+    setSelectedProject(projectId); // ✅ update context
   };
 
   const handleLogoutOnclick = () => {
@@ -55,7 +53,7 @@ const Header = ({ onProjectSelect }) => {
                 onChange={handleProjectChange}
               >
                 <option value="" disabled hidden>
-                -- Choose --
+                  -- Choose --
                 </option>
                 {projects.map((proj) => (
                   <option key={proj._id} value={proj._id}>

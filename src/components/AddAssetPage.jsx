@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import styles from "./AddAssetPage.module.css";
 import SideNavBar from "./SideNavBar";
@@ -29,6 +29,11 @@ const AddAssetPage = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [newManufacturer, setNewManufacturer] = useState("");
+  const [isFormDisabled, setIsFormDisabled] = useState(true);
+
+  useEffect(() => {
+    setIsFormDisabled(!selectedProject);
+  }, [selectedProject]);
 
   const [manufacturers, setManufacturers] = useState({
     Electrical: ["Siemens", "Schneider", "ABB"],
@@ -36,8 +41,6 @@ const AddAssetPage = () => {
     Hvac: ["Daikin", "Voltas", "Blue Star"],
     Plumbing: ["Jaquar", "Hindware", "Kohler"]
   });
-
-  const isFormDisabled = !selectedProject;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,6 +60,7 @@ const AddAssetPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!selectedProject) {
       alert("Please select a project first.");
       return;
@@ -149,7 +153,9 @@ const AddAssetPage = () => {
                       </option>
                     ))}
                   </select>
-                  <button type="button" onClick={() => setShowModal(true)} disabled={isFormDisabled}>+</button>
+                  <button type="button" onClick={() => setShowModal(true)} disabled={isFormDisabled}>
+                    +
+                  </button>
                 </div>
               </div>
 

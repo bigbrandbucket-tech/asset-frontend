@@ -3,16 +3,24 @@ import axios from "axios";
 import SideNavBar from "./SideNavBar";
 import Header from "./Header";
 import styles from "./AddUserPage.module.css";
-import { useProject } from "./ProjectContext"; // <-- Context for project
+import { useProject } from "./ProjectContext";
 
 const AddUserPage = () => {
-  const { selectedProject } = useProject(); // <-- Global selected project
+  const { selectedProject } = useProject(); // Global project from context
+
   const [form, setForm] = useState({
     username: "",
     email: "",
     phone: "",
     role: ""
   });
+
+  const [isFormDisabled, setIsFormDisabled] = useState(true);
+
+  // Update disabled state whenever selectedProject changes
+  useEffect(() => {
+    setIsFormDisabled(!selectedProject);
+  }, [selectedProject]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -45,8 +53,6 @@ const AddUserPage = () => {
     }
   };
 
-  const isFormDisabled = !selectedProject;
-
   return (
     <div className={styles.container}>
       <SideNavBar />
@@ -61,7 +67,6 @@ const AddUserPage = () => {
           </div>
 
           <form className={styles.twoColumnForm} onSubmit={handleSubmit}>
-            {/* Left Column */}
             <div className={styles.column}>
               <div className={styles.formGroup}>
                 <label htmlFor="username">Username</label>
@@ -91,7 +96,6 @@ const AddUserPage = () => {
               </div>
             </div>
 
-            {/* Right Column */}
             <div className={styles.column}>
               <div className={styles.formGroup}>
                 <label htmlFor="email">Email</label>
