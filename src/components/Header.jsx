@@ -42,14 +42,10 @@ const Header = ({ onProjectSelect }) => {
       <div className={styles.container}>
         <h1 className={styles.dashboardTitle}>Admin Dashboard</h1>
 
-        {showDropdown && (
-          <div className={styles.projectSelector}>
-            <label htmlFor="projectSelect" className={styles.label}>
-              Select Project:
-            </label>
+        <div className={styles.headerButtons}>
+          {showDropdown && (
             <select
-              id="projectSelect"
-              className={styles.projectDropdown}
+              className={styles.projectSelect}
               value={selectedProject}
               onChange={handleProjectChange}
             >
@@ -60,10 +56,7 @@ const Header = ({ onProjectSelect }) => {
                 </option>
               ))}
             </select>
-          </div>
-        )}
-
-        <div className={styles.headerButtons}>
+          )}
           <button className={styles.headerBtn}>Profile</button>
           <button className={styles.headerBtn} onClick={handleLogoutOnclick}>
             Logout

@@ -24,10 +24,33 @@
 
 .headerButtons {
   display: flex;
+  align-items: center;
   gap: 12px;
 }
 
-.headerButtons button {
+/* Updated dropdown to match button style */
+.projectSelect {
+  width: 100px;
+  height: 36px;
+  padding: 0 10px;
+  background-color: #262756;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  appearance: none;
+  transition: background-color 0.3s ease;
+}
+
+.projectSelect:hover,
+.projectSelect:focus {
+  background-color: #1f1f4e;
+  outline: none;
+}
+
+.headerBtn {
   width: 100px;
   padding: 8px 16px;
   background-color: #262756;
@@ -40,42 +63,7 @@
   transition: background-color 0.3s ease;
 }
 
-.headerButtons button:hover {
+.headerBtn:hover {
   background-color: #1f1f4e;
   color: white;
-}
-
-/* UPDATED dropdown styles */
-.dropdownContainer {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #262756;
-  padding: 8px 12px;
-  border-radius: 6px;
-  color: #ffffff;
-  margin-right: auto;
-  margin-left: 2rem;
-}
-
-.dropdownContainer label {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.dropdownContainer select {
-  padding: 6px 10px;
-  font-size: 14px;
-  border-radius: 4px;
-  border: none;
-  background-color: #ffffff;
-  color: #262756;
-  font-weight: 500;
-  cursor: pointer;
-  transition: box-shadow 0.2s ease;
-}
-
-.dropdownContainer select:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #c1c1e1;
 }
