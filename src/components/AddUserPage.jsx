@@ -5,19 +5,21 @@ import Header from "./Header";
 import styles from "./AddUserPage.module.css";
 import { useProject } from "./ProjectContext";
 
+// ... imports remain unchanged
+
 const AddUserPage = () => {
-  const { selectedProject } = useProject(); // Global project from context
+  const { selectedProject } = useProject();
 
   const [form, setForm] = useState({
     username: "",
     email: "",
     phone: "",
-    role: ""
+    role: "",
+    password: ""  // ✅ Added password field
   });
 
   const [isFormDisabled, setIsFormDisabled] = useState(true);
 
-  // Update disabled state whenever selectedProject changes
   useEffect(() => {
     setIsFormDisabled(!selectedProject);
   }, [selectedProject]);
@@ -94,6 +96,19 @@ const AddUserPage = () => {
                   disabled={isFormDisabled}
                 />
               </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="password">Password</label> {/* ✅ Added */}
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                  disabled={isFormDisabled}
+                />
+              </div>
             </div>
 
             <div className={styles.column}>
@@ -138,3 +153,6 @@ const AddUserPage = () => {
 };
 
 export default AddUserPage;
+
+
+

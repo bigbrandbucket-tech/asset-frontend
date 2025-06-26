@@ -11,6 +11,8 @@ const AddClientPage = () => {
     pocNumber: "",
     email: "",
     address: "",
+    username: "",
+    password: ""
   });
 
   const handleChange = (e) => {
@@ -82,6 +84,18 @@ const AddClientPage = () => {
                   required
                 />
               </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="username">Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={form.username}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
 
             <div className={styles.column}>
@@ -107,6 +121,18 @@ const AddClientPage = () => {
                   onChange={handleChange}
                   required
                 ></textarea>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                />
               </div>
             </div>
 
