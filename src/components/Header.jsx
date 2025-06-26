@@ -32,8 +32,10 @@ const Header = () => {
   };
 
   const handleLogoutOnclick = () => {
-    navigate("/");
-  };
+  localStorage.removeItem("isLoggedIn");
+  navigate("/");
+};
+
 
   return (
     <header className={styles.header}>
