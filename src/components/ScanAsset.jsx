@@ -69,7 +69,20 @@ const ScanAsset = () => {
     );
   }
 
-  const { type, makeOrOEM, assetName, model, tag, warrantyExpiryDate, location } = asset;
+  const {
+    type,
+    makeOrOEM,
+    assetName,
+    model,
+    tag,
+    warrantyExpiryDate,
+    location,
+    qrCodeUrl,
+    gaDocumentUrl,
+    curveDocumentUrl,
+    performanceDocumentUrl,
+    sparesManualsUrl
+  } = asset;
 
   return (
     <div className={styles.container}>
@@ -110,11 +123,35 @@ const ScanAsset = () => {
 
       <div className={styles.section}>
         <h3 style={{ marginBottom: "1rem", color: "#2c3e50" }}>Technical Documents</h3>
-        {renderDocLink("GA Drawing", asset.ga)}
-        {renderDocLink("Curve", asset.curve)}
-        {renderDocLink("Performance", asset.performance)}
-        {renderDocLink("Spares & Manuals", asset.spares)}
+        {renderDocLink("GA Drawing", gaDocumentUrl)}
+        {renderDocLink("Curve", curveDocumentUrl)}
+        {renderDocLink("Performance", performanceDocumentUrl)}
+        {renderDocLink("Spares & Manuals", sparesManualsUrl)}
       </div>
+
+      {/* ✅ QR Code Section */}
+      {qrCodeUrl && (
+        <div className={styles.section}>
+          <h3 style={{ marginBottom: "1rem", color: "#2c3e50" }}>QR Code</h3>
+          <img
+            src={qrCodeUrl}
+            alt="QR Code"
+            style={{ width: "200px", padding: "8px", background: "#fff", border: "1px solid #ccc" }}
+          />
+          <div style={{ marginTop: "0.5rem" }}>
+            <a href={qrCodeUrl} download={`${assetName}-qr.png`}>
+              <button className={styles.downloadBtn}>Download QR</button>
+            </a>
+            <button
+              className={styles.viewBtn}
+              style={{ marginLeft: "10px" }}
+              onClick={() => window.open(qrCodeUrl, "_blank")}
+            >
+              👁️ View
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className={styles.buttonContainer}>
         <button onClick={handlePrint} className={styles.printButton}>

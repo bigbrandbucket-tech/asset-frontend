@@ -33,6 +33,7 @@ const AssetListPage = ({ showActiveOnly = false }) => {
             <th>Equipment No.</th>
             <th>Warranty Expiry</th>
             <th>Location (Lat, Long)</th>
+            <th>QR Code</th> {/* ✅ New Column */}
           </tr>
         </thead>
         <tbody>
@@ -46,6 +47,24 @@ const AssetListPage = ({ showActiveOnly = false }) => {
               <td>{new Date(a.warrantyExpiryDate).toLocaleDateString()}</td>
               <td>
                 {a.location?.latitude ?? "-"}, {a.location?.longitude ?? "-"}
+              </td>
+              <td>
+                {a.qrCodeUrl ? (
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <a href={a.qrCodeUrl} download={`${a.assetName}-qr.png`}>
+                      <button className={styles.downloadBtn}>Download</button>
+                    </a>
+                    <button
+                      className={styles.viewBtn}
+                      onClick={() => window.open(a.qrCodeUrl, "_blank")}
+                      title="View QR Code"
+                    >
+                      👁️
+                    </button>
+                  </div>
+                ) : (
+                  "Not Generated"
+                )}
               </td>
             </tr>
           ))}
