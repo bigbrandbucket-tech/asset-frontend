@@ -10,7 +10,8 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import axios from "axios";
+// import axios from "axios";
+import axiosInstance from "../api/axiosAPI";
 
 // Normalized type mapping: backend type => { label, color }
 const typeMap = {
@@ -33,12 +34,12 @@ const CustomBar = (props) => {
 
 const BarChartComponent = () => {
   const [data, setData] = useState([]);
-
+const axios = axiosInstance();
 useEffect(() => {
   const fetchAssetTypeData = async () => {
     try {
       const response = await axios.get(
-        "https://asset-backend-tuna.onrender.com/api/assets/type-count"
+        "/assets/type-count"
       );
 
       const tempData = Object.entries(typeMap).map(([key, value]) => ({

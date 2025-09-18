@@ -19,7 +19,7 @@ import ScanAsset from "./components/ScanAsset";
 import { ProjectProvider } from "./components/ProjectContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-axios.defaults.baseURL = "https://asset-backend-tuna.onrender.com/api";
+axios.defaults.baseURL = window.location.href==="localhost"?"http://localhost:5000/api":"https://asset-backend-tuna.onrender.com/api";
 
 const App = () => {
   return (

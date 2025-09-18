@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import styles from "./Header.module.css";
 import { useProject } from "./ProjectContext"; // ✅ import context
-
+import axiosInstance from "../api/axiosAPI";
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,7 +16,7 @@ const Header = () => {
   useEffect(() => {
     if (showDropdown) fetchProjects();
   }, [showDropdown]);
-
+const axios = axiosInstance();
   const fetchProjects = async () => {
     try {
       const res = await axios.get("/projects");

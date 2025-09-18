@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { TeamOutlined, ScheduleOutlined, ProjectOutlined, DatabaseOutlined, AccountBookOutlined } from "@ant-design/icons";
+import { TeamOutlined, ScheduleOutlined, ProjectOutlined, DatabaseOutlined, AccountBookOutlined, ThunderboltOutlined } from "@ant-design/icons";
 import SideNavBar from "./SideNavBar";
 import styles from "./AdminDashboard.module.css";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import PieChartComponent from "./PieChartComponent";
 import BarChartComponent from "./BarChartComponent";
-import axios from "axios";
+import axiosInstance from "../api/axiosAPI";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -17,18 +17,20 @@ const AdminDashboard = () => {
     activeAssets: 0,
     alerts: 0,
     projects: 0,
+    totalPower: 0
   });
 
   const [assetTypeData, setAssetTypeData] = useState([]);
   const [pieData, setPieData] = useState([]);
-
+const axios = axiosInstance();
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [clientsRes, assetsRes, projectsRes] = await Promise.all([
-          axios.get("https://asset-backend-tuna.onrender.com/api/clients"),
-          axios.get("https://asset-backend-tuna.onrender.com/api/assets"),
-          axios.get("https://asset-backend-tuna.onrender.com/api/projects")
+        const [clientsRes, assetsRes, powerRes, projectsRes] = await Promise.all([
+          axios.get("/clients"),
+          axios.get("/assets"),
+          axios.get("/assets/kwh-counts"),
+          axios.get("/projects")
         ]);
 
         const allAssets = assetsRes.data;
@@ -54,10 +56,11 @@ const AdminDashboard = () => {
           { name: "Active", value: activeAssets },
           { name: "Inactive", value: allAssets.length - activeAssets },
         ];
-
+// console.log("Power Res:", powerRes.data, powerRes.data.totalPower);
         setCounts({
           clients: clientsRes.data.length,
           assets: allAssets.length,
+          totalPower: powerRes.data.totalPower || 0,
           activeAssets: activeAssets,
           alerts: alerts,
           projects: projectsRes.data.length
@@ -85,6 +88,12 @@ const AdminDashboard = () => {
             <p>Total clients</p>
             <h2 className={styles.icons}><TeamOutlined /></h2>
             <h3>{counts.clients}</h3>
+          </div>
+
+          <div className={styles.card} onClick={() => navigate("/total-kwh")}>
+            <p>Total KWhs</p>
+            <h2 className={styles.icons}><ThunderboltOutlined /></h2>
+            <h3>{counts.totalPower}</h3>
           </div>
 
           <div className={styles.card} onClick={() => navigate("/total-assets")}>

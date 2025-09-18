@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import SideNavBar from "./SideNavBar";
 import Header from "./Header";
 import styles from "./AddUserPage.module.css";
 import { useProject } from "./ProjectContext";
+import axiosInstance from "../api/axiosAPI";
 
 // ... imports remain unchanged
 
@@ -41,9 +41,9 @@ const AddUserPage = () => {
         ...form,
         assignedProject: selectedProject
       };
-
+      const axios = axiosInstance();
       const res = await axios.post(
-        "https://asset-backend-tuna.onrender.com/api/users",
+        "/users",
         payload
       );
 

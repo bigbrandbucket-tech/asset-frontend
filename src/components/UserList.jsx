@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import styles from "./ClientList.module.css"; 
+import axiosInstance from "../api/axiosAPI";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
-
+const axios = axiosInstance();
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get("https://asset-backend-tuna.onrender.com/api/users");
+        const res = await axios.get("/users");
         setUsers(res.data);
       } catch (err) {
         console.error("Failed to fetch users:", err);

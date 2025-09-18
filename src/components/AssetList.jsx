@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import styles from "./AssetList.module.css";
+import axiosInstance from "../api/axiosAPI";
 
 const AssetListPage = ({ showActiveOnly = false }) => {
   const [assets, setAssets] = useState([]);
-
+const axios = axiosInstance();
   useEffect(() => {
     const fetchAssets = async () => {
       try {
         const url = showActiveOnly
-          ? "https://asset-backend-tuna.onrender.com/api/assets/active"
-          : "https://asset-backend-tuna.onrender.com/api/assets";
+          ? "/assets/active"
+          : "/assets";
         const res = await axios.get(url);
         setAssets(res.data);
       } catch (err) {

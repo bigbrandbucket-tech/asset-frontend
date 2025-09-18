@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import SideNavBar from "./SideNavBar";
 import styles from "./AddProjectPage.module.css";
 import Header from "./Header";
+import axiosInstance from "../api/axiosAPI";
 
 const AddProjectPage = () => {
   const [form, setForm] = useState({
@@ -15,12 +15,12 @@ const AddProjectPage = () => {
   });
 
   const [clients, setClients] = useState([]);
-
+const axios = axiosInstance();
   // Fetch clients to populate dropdown
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const res = await axios.get("https://asset-backend-tuna.onrender.com/api/clients");
+        const res = await axios.get("/clients");
         setClients(res.data);
       } catch (err) {
         console.error("Error fetching clients:", err);
@@ -38,7 +38,7 @@ const AddProjectPage = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("https://asset-backend-tuna.onrender.com/api/projects", form);
+      const res = await axios.post("/projects", form);
       alert("Project added successfully!");
       console.log(res.data);
     } catch (err) {

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import axios from "axios";
 import SideNavBar from "./SideNavBar";
 import styles from "./AddClientPage.module.css";
 import Header from "./Header";
+import axiosInstance from "../api/axiosAPI";
 
 const AddClientPage = () => {
   const [form, setForm] = useState({
@@ -14,7 +14,7 @@ const AddClientPage = () => {
     username: "",
     password: ""
   });
-
+const axios = axiosInstance();
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -23,7 +23,7 @@ const AddClientPage = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("https://asset-backend-tuna.onrender.com/api/clients", form);
+      const res = await axios.post("/clients", form);
       alert("Client added successfully!");
       console.log(res.data);
     } catch (err) {

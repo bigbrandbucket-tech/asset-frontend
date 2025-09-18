@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
+// import axios from "axios";
 import styles from "./AddAssetPage.module.css";
 import SideNavBar from "./SideNavBar";
 import Header from "./Header";
 import { ProjectContext } from "./ProjectContext";
-
+import axiosInstance from "../api/axiosAPI";
 const AddAssetPage = () => {
   const { selectedProject } = useContext(ProjectContext);
-
+const axios = axiosInstance();
   const [form, setForm] = useState({
     type: "",
     makeOrOEM: "",
     assetName: "",
     model: "",
     tag: "",
+    totalPower:"",
     warrantyExpiryDate: "",
     location: { latitude: "", longitude: "" }
   });
@@ -157,6 +158,11 @@ const AddAssetPage = () => {
                     +
                   </button>
                 </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="totalPower">Total Power (KWHs)</label>
+                <input type="text" name="totalPower" value={form.totalPower} onChange={handleChange} required disabled={isFormDisabled} />
               </div>
 
               <div className={styles.formGroup}>

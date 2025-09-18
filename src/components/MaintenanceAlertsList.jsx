@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import styles from "./MaintenanceAlertsList.module.css";
+import axiosInstance from "../api/axiosAPI";
 
 const MaintenanceAlertsList = () => {
   const [alertAssets, setAlertAssets] = useState([]);
-
+const axios = axiosInstance();
   useEffect(() => {
     const fetchAlerts = async () => {
       try {
-        const res = await axios.get("https://asset-backend-tuna.onrender.com/api/alerts");
+        const res = await axios.get("/alerts");
         setAlertAssets(res.data);
       } catch (err) {
         console.error("Error fetching alerts:", err);

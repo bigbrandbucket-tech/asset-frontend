@@ -1,21 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import axios from "axios";
 import styles from "./LoginPage.module.css";
+import axiosInstance from "../api/axiosAPI";
 
 const LoginPage = () => {
   const [role, setRole] = useState("admin");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+const axios = axiosInstance();
   const handleLogin = async (e) => {
     e.preventDefault();
 
     const endpoint =
       role === "admin"
-        ? "https://asset-backend-tuna.onrender.com/api/users/login"
-        : "https://asset-backend-tuna.onrender.com/api/clients/login";
+        ? "/users/login"
+        : "/clients/login";
 
     try {
       await axios.post(endpoint, { username, password });
